@@ -3,9 +3,15 @@
 #include "regfile.hpp"
 #include "decoder.hpp"
 
+class Segment;
+
 class Hart final {
+private:
     Regfile regfile;
     Reg pc;
 
     Decoder decoder;
+
+public:
+    void save_in_memory(Segment& segment);
 };

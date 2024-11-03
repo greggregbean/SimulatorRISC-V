@@ -1,6 +1,6 @@
 #include "../include/elf_loader.hpp"
 
-void ELFLoader::Load() {
+void ELFLoader::load(Hart& hart) {
     //open the elf file
     int elf_file = open(file_path.c_str(), O_RDONLY);
     assert(elf_file != 0 && "there is no such elf-file");
@@ -12,7 +12,6 @@ void ELFLoader::Load() {
 
     std::vector<uint8_t> elf_buf(file_size, 0);
     int read_num = read(elf_file, elf_buf.data(), file_size);
-    //std::cout << read_num;
     assert(read_num != -1);
 
     //get elf-file
@@ -32,7 +31,8 @@ void ELFLoader::Load() {
         assert(!gelf_getphdr(elf, i, &seg_header) && "can't get the file segment");
 
         if(seg_header.p_type == PT_LOAD) {
-            Segment seg(seg_header);
+            Segment seg(seg_header, elf_buf.data());
+            hart.save_in_memory(seg);
         }
     }
 }
