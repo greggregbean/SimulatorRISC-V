@@ -2,16 +2,18 @@
 
 #include <cstring>
 
-class PhysicalMemory {
+int DEFAULT_MEM_SIZE = 1 << 25;
+
+class Memory {
 private:
     int mem_size = 0;
     std::byte* mem = nullptr;
 
 public:
-    PhysicalMemory(int size): mem_size(size) {
+    Memory(int size = DEFAULT_MEM_SIZE): mem_size(size) {
         mem = new std::byte[mem_size];
     }
-    ~PhysicalMemory() {
+    ~Memory() {
         delete[] mem;
     }
 

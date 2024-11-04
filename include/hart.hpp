@@ -1,6 +1,6 @@
 #pragma once
 
-#include "regfile.hpp"
+#include "memory.hpp"
 #include "decoder.hpp"
 
 class Segment;
@@ -11,6 +11,8 @@ private:
     Reg pc;
 
     Decoder decoder;
+
+    Memory memory{};
 
 public:
     void save_in_memory(Segment& segment);
