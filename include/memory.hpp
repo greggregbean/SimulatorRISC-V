@@ -1,8 +1,9 @@
+#pragma once 
+
 #include "regfile.hpp"
+#include "utils/constants.hpp"
 
 #include <cstring>
-
-int DEFAULT_MEM_SIZE = 1 << 25;
 
 class Memory {
 private:

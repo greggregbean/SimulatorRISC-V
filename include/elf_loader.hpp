@@ -1,6 +1,5 @@
 #pragma once
 
-#include <iostream>
 #include <string.h>
 #include <vector>
 #include <fstream>
@@ -46,5 +45,9 @@ public:
 
     uint64_t get_vaddr() {
         return vaddr;
+    }
+
+    uint8_t get_flag() {
+        return flags;
     }
 };
