@@ -11,18 +11,19 @@ void Hart::save_in_memory(Segment& segment) {
             return;
         }
 
-        memory.mem_store(vaddr, segment.get_data(), vp_alignment);
+        memory.mem_store(vaddr - BASE_ADDRESS, segment.get_data(), vp_alignment);
     }
 
     //copy the remaining pages
     for(uint64_t vpage_offset = 0; vpage_offset < segment.get_size() - vp_alignment; vpage_offset += VPAGE_SIZE) {
-        uint64_t paddr = vaddr + vp_alignment + vpage_offset;
+        uint64_t paddr = vaddr + vp_alignment + vpage_offset - BASE_ADDRESS;
 
         //determine the size for the record
         size_t store_size = VPAGE_SIZE;
         if ((segment.get_size() - vp_alignment - vpage_offset) < VPAGE_SIZE)
             store_size = segment.get_size() - vp_alignment - vpage_offset;
 
+        void* add = (char*)segment.get_data() + vp_alignment + vpage_offset;
         memory.mem_store(paddr, (char*)segment.get_data() + vp_alignment + vpage_offset, store_size);
     }
 }

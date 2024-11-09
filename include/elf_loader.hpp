@@ -1,13 +1,5 @@
 #pragma once
 
-#include <string.h>
-#include <vector>
-#include <fstream>
-#include <fcntl.h>
-#include <unistd.h>
-#include <cassert>
-#include <cstdint>
-
 #include <gelf.h>
 #include <libelf.h>
 

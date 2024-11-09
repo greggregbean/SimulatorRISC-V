@@ -3,11 +3,10 @@
 #include "regfile.hpp"
 #include "utils/constants.hpp"
 
-#include <cstring>
-
 class Memory {
 private:
-    int mem_size = 0;
+    int mem_size  = 0;
+    int curr_size = 0;
     std::byte* mem = nullptr;
 
 public:
@@ -20,4 +19,5 @@ public:
 
     void mem_store(uint64_t offset, void* ptr, int ptr_size);
     void mem_load(uint64_t offset, void* ptr, int ptr_size);
+    void dump();
 };
