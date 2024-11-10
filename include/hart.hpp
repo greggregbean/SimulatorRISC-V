@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+
 #include "memory.hpp"
 #include "decoder.hpp"
 
@@ -11,7 +13,7 @@ private:
     Reg pc;
 
     Decoder decoder;
-    Memory memory{};
+    Memory memory;
 
 public:
     void save_in_memory(Segment& segment);

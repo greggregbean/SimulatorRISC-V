@@ -1,4 +1,4 @@
-#include "../include/elf_loader.hpp"
+#include "elf_loader.hpp"
 
 int main() {
     Hart hart;

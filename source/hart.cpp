@@ -1,5 +1,5 @@
-#include "../include/hart.hpp"
-#include "../include/elf_loader.hpp"
+#include "hart.hpp"
+#include "elf_loader.hpp"
 
 void Hart::save_in_memory(Segment& segment) {
     //how many bytes are needed for alignment
@@ -34,5 +34,5 @@ void Hart::load_from_memory(uint64_t vaddr, void* load_ptr, int load_size) {
             "incorrect load size(only 8, 16, 32, 64 b)");
     assert(vaddr & (load_size - 1) == 0 && "incorrect alignment");
     
-    memory.mem_load(vaddr, load_ptr, load_size);
+    memory.mem_load(vaddr - BASE_ADDRESS, load_ptr, load_size);
 }

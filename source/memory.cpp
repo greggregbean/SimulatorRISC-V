@@ -1,4 +1,4 @@
-#include "../include/memory.hpp"
+#include "memory.hpp"
 
 void Memory::mem_load(uint64_t offset, void* ptr, int ptr_size) {
     std::memcpy(ptr, mem + offset, ptr_size);

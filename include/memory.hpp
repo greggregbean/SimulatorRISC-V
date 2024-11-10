@@ -1,5 +1,8 @@
 #pragma once 
 
+#include <iostream>
+#include <fstream>
+
 #include "regfile.hpp"
 #include "utils/constants.hpp"
 
