@@ -1,17 +1,9 @@
-#ifndef ELF_LOADER_H
-#define ELF_LOADER_H
-
-#include <iostream>
-#include <string.h>
-#include <vector>
-#include <fstream>
-#include <fcntl.h>
-#include <unistd.h>
-#include <cassert>
-#include <cstdint>
+#pragma once
 
 #include <gelf.h>
 #include <libelf.h>
+
+#include "hart.hpp"
 
 class ELFLoader {
 private:
@@ -19,21 +11,35 @@ private:
     int file_size = 0;
 public:
     ELFLoader(std::string path): file_path(path) {}
-    void Load();
+    void load(Hart& hart);
 };
 
 class Segment {
     Elf64_Xword vaddr;
     Elf64_Xword size;
-    Elf64_Off file_offset;
+    uint8_t* data;
     Elf64_Word flags;
 
 public:
-    Segment(GElf_Phdr& curr_segment):
+    Segment(GElf_Phdr& curr_segment, uint8_t* elf_buf):
         vaddr(curr_segment.p_vaddr),
         size(curr_segment.p_filesz),
-        file_offset(curr_segment.p_offset),
+        data(elf_buf + curr_segment.p_offset),
         flags(curr_segment.p_flags) {}
-};
 
-#endif //ELF_LOADER_H
+    void* get_data() {
+        return data;
+    }
+
+    int get_size() {
+        return size;
+    }
+
+    uint64_t get_vaddr() {
+        return vaddr;
+    }
+
+    uint8_t get_flag() {
+        return flags;
+    }
+};
