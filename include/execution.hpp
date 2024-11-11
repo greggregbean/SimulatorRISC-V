@@ -1,0 +1,60 @@
+#pragma once
+
+#include "inst.hpp"
+
+namespace Executor {  
+    void execute_LUI (Inst* inst);
+    void execute_AUIPC (Inst* inst);
+    void execute_JAL (Inst* inst);
+    void execute_JALR (Inst* inst);
+    void execute_BEQ (Inst* inst);
+    void execute_BNE (Inst* inst);
+    void execute_BLT (Inst* inst);
+    void execute_BGE (Inst* inst);
+    void execute_BLTU (Inst* inst);
+    void execute_BGEU (Inst* inst);
+    void execute_LB (Inst* inst);
+    void execute_LH (Inst* inst);
+    void execute_LW (Inst* inst);
+    void execute_LBU (Inst* inst);
+    void execute_LHU (Inst* inst);
+    void execute_SB (Inst* inst);
+    void execute_SH (Inst* inst);
+    void execute_SW (Inst* inst);
+    void execute_ADDI (Inst* inst);
+    void execute_SLTI (Inst* inst);
+    void execute_SLTIU (Inst* inst);
+    void execute_XORI (Inst* inst);
+    void execute_ORI (Inst* inst);
+    void execute_ANDI (Inst* inst);
+    void execute_ADD (Inst* inst);
+    void execute_SUB (Inst* inst);
+    void execute_SLL (Inst* inst);
+    void execute_SLT (Inst* inst);
+    void execute_SLTU (Inst* inst);
+    void execute_XOR (Inst* inst);
+    void execute_SRL (Inst* inst);
+    void execute_SRA (Inst* inst);
+    void execute_OR (Inst* inst);
+    void execute_AND (Inst* inst);
+    void execute_FENCE (Inst* inst);
+    void execute_FENCE_TSO (Inst* inst);
+    void execute_PAUSE (Inst* inst);
+    void execute_ECALL (Inst* inst);
+    void execute_EBREAK (Inst* inst);
+    void execute_LWU (Inst* inst);
+    void execute_LD (Inst* inst);
+    void execute_SD (Inst* inst);
+    void execute_SLLI (Inst* inst);
+    void execute_SRLI (Inst* inst);
+    void execute_SRAI (Inst* inst);
+    void execute_ADDIW (Inst* inst);
+    void execute_SLLIW (Inst* inst);
+    void execute_SRLIW (Inst* inst);
+    void execute_SRAIW (Inst* inst);
+    void execute_ADDW (Inst* inst);
+    void execute_SUBW (Inst* inst);
+    void execute_SLLW (Inst* inst);
+    void execute_SRLW (Inst* inst);
+    void execute_SRAW (Inst* inst);
+};
