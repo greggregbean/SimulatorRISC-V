@@ -45,6 +45,15 @@ void Hart::decode () {
 
 }
 
+void Hart::execute() {
+}
+
+void Hart::memory_access() {
+}
+
+void Hart::write_back() {
+}
+
 void Hart::run_pipeline () {
     while (true) {
         fetch();

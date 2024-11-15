@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "memory.hpp"
+#include "execution.hpp"
 #include "decoder.hpp"
 
 class Segment;

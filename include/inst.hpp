@@ -2,8 +2,6 @@
 
 #include <cstdint>
 
-#include "regfile.hpp"
-
 enum class Opcode : uint8_t {
     LUI      = 0b0110111,
     AUIPC    = 0b0010111,
@@ -109,7 +107,7 @@ private:
     void (*executor) (Inst*) = nullptr;
 
 public:
-    virtual ~Inst() = 0;
+    virtual ~Inst() {};
 }; 
 
 class Inst_R final : public Inst {

@@ -16,8 +16,8 @@ private:
     std::string file_path;
     int file_size = 0;
 public:
-    ELFLoader(std::string path): file_path(path) {}
-    void load(Hart& hart);
+    ELFLoader (std::string path): file_path (path) {}
+    void load (Hart& hart);
 };
 
 class Segment {
@@ -27,11 +27,11 @@ class Segment {
     Elf64_Word flags;
 
 public:
-    Segment(GElf_Phdr& curr_segment, uint8_t* elf_buf):
-        vaddr(curr_segment.p_vaddr),
-        size(curr_segment.p_filesz),
-        data(elf_buf + curr_segment.p_offset),
-        flags(curr_segment.p_flags) {}
+    Segment (GElf_Phdr& curr_segment, uint8_t* elf_buf):
+        vaddr (curr_segment.p_vaddr),
+        size (curr_segment.p_filesz),
+        data (elf_buf + curr_segment.p_offset),
+        flags (curr_segment.p_flags) {}
 
     void* get_data() {
         return data;

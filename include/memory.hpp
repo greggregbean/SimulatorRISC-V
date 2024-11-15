@@ -2,6 +2,9 @@
 
 #include <iostream>
 #include <fstream>
+#include <cassert>
+#include <cstring>
+#include <iomanip>
 
 #include "regfile.hpp"
 #include "utils/constants.hpp"

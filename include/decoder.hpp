@@ -4,7 +4,6 @@
 
 #include "inst.hpp"
 #include "execution.hpp"
-#include "regfile.hpp"
 
 class Decoder
 {
