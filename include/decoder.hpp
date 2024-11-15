@@ -2,7 +2,7 @@
 
 #include <array>
 
-#include "inst.hpp"
+#include "core/inst.hpp"
 #include "execution.hpp"
 
 class Decoder

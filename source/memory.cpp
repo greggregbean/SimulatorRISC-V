@@ -12,7 +12,7 @@ void Memory::mem_store (uint64_t offset, void* ptr, int ptr_size) {
 }
 
 void Memory::dump() {
-    for (int i = 0; i < curr_size; ++i) {
+    for (uint64_t i = 0; i < curr_size; ++i) {
         std::cout << std::hex << std::setw(2) << std::setfill('0')
                   << static_cast<int>(mem[i]) << " ";
     }

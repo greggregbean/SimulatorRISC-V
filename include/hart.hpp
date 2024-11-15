@@ -5,8 +5,8 @@
 #include "memory.hpp"
 #include "execution.hpp"
 #include "decoder.hpp"
-
-class Segment;
+#include "core/regfile.hpp"
+#include "core/segment.hpp"
 
 class Hart final {
 private:

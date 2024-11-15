@@ -74,6 +74,7 @@ Inst* Decoder::decode_inst (uint32_t inst) {
             tmp_inst_R.rd     = decode_rd (inst);
             result_inst       = new Inst_R;
             *(static_cast<Inst_R*>(result_inst)) = tmp_inst_R;
+            break;
         
         case InstType::I:
             tmp_inst_I.opcode = static_cast<Opcode>(opcode);
@@ -83,6 +84,7 @@ Inst* Decoder::decode_inst (uint32_t inst) {
             tmp_inst_I.rd     = decode_rd (inst);
             result_inst       = new Inst_I;
             *(static_cast<Inst_I*>(result_inst)) = tmp_inst_I;
+            break;
         
         case InstType::S:
             tmp_inst_S.opcode = static_cast<Opcode>(opcode);
@@ -92,6 +94,7 @@ Inst* Decoder::decode_inst (uint32_t inst) {
             tmp_inst_S.funct3 = decode_funct3 (inst);
             result_inst       = new Inst_S;
             *(static_cast<Inst_S*>(result_inst)) = tmp_inst_S;
+            break;
         
         case InstType::B:
             tmp_inst_B.opcode = static_cast<Opcode>(opcode);
@@ -101,6 +104,7 @@ Inst* Decoder::decode_inst (uint32_t inst) {
             tmp_inst_B.funct3 = decode_funct3 (inst);
             result_inst       = new Inst_B;
             *(static_cast<Inst_B*>(result_inst)) = tmp_inst_B;
+            break;
         
         case InstType::U:
             tmp_inst_U.opcode = static_cast<Opcode>(opcode);
@@ -108,6 +112,7 @@ Inst* Decoder::decode_inst (uint32_t inst) {
             tmp_inst_U.rd     = decode_rd (inst);
             result_inst       = new Inst_U;
             *(static_cast<Inst_U*>(result_inst)) = tmp_inst_U;
+            break;
         
         case InstType::J:
             tmp_inst_J.opcode = static_cast<Opcode>(opcode);
@@ -115,6 +120,7 @@ Inst* Decoder::decode_inst (uint32_t inst) {
             tmp_inst_J.rd     = decode_rd (inst);
             result_inst       = new Inst_J;
             *(static_cast<Inst_J*>(result_inst)) = tmp_inst_J;
+            break;
         
         case InstType::NONE:
             // ERROR

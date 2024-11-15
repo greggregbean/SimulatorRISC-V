@@ -1,6 +1,6 @@
 #pragma once
 
-#include "inst.hpp"
+#include "core/inst.hpp"
 
 namespace Executor {  
     void execute_LUI (Inst* inst);

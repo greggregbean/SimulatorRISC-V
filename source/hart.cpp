@@ -1,5 +1,4 @@
 #include "hart.hpp"
-#include "elf_loader.hpp"
 
 void Hart::save_in_memory (Segment& segment) {
     //how many bytes are needed for alignment
@@ -22,8 +21,7 @@ void Hart::save_in_memory (Segment& segment) {
         size_t store_size = VPAGE_SIZE;
         if ((segment.get_size() - vp_alignment - vpage_offset) < VPAGE_SIZE)
             store_size = segment.get_size() - vp_alignment - vpage_offset;
-
-        void* add = (char*)segment.get_data() + vp_alignment + vpage_offset;
+            
         memory.mem_store (paddr, (char*)segment.get_data() + vp_alignment + vpage_offset, store_size);
     }
 }
