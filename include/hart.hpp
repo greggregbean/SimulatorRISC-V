@@ -15,8 +15,15 @@ private:
     Decoder decoder;
     Memory memory;
 
+    void fetch();
+    void decode();
+    void execute();
+    void memory_access();
+    void write_back();
+
 public:
-    void save_in_memory(Segment& segment);
-    void load_from_memory(uint64_t vaddr, void* load_ptr, int load_size);
-    void memory_dump() { memory.dump(); }
+    void save_in_memory (Segment& segment);
+    void load_from_memory (uint64_t vaddr, void* load_ptr, int load_size);
+    void run_pipeline();
+    void memory_dump() { memory.dump (); }
 };

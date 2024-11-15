@@ -1,15 +1,37 @@
 #pragma once
 
+#include <array>
+
 #include "inst.hpp"
+#include "execution.hpp"
 #include "regfile.hpp"
 
 class Decoder
 {
-    InstType cur_inst_type = InstType::NONE;
-    InstName cur_inst_name = InstName::NONE;
+private:
+// Tmp insts, that are returned by decode_inst()
+    Inst_R tmp_inst_R;
+    Inst_I tmp_inst_I;
+    Inst_S tmp_inst_S;
+    Inst_B tmp_inst_B;
+    Inst_U tmp_inst_U;
+    Inst_J tmp_inst_J;
 
-    void recognize_inst (uint32_t opcode, uint32_t funct3, uint32_t funct7);
-    
+// Auxiliary functions
+    uint32_t decode_imm_I  (uint32_t inst);
+    uint32_t decode_imm_S  (uint32_t inst);
+    uint32_t decode_imm_B  (uint32_t inst);
+    uint32_t decode_imm_U  (uint32_t inst);
+    uint32_t decode_imm_J  (uint32_t inst);
+    uint8_t  decode_funct7 (uint32_t inst);
+    uint8_t  decode_rs2    (uint32_t inst);
+    uint8_t  decode_rs1    (uint32_t inst);
+    uint8_t  decode_funct3 (uint32_t inst);
+    uint8_t  decode_rd     (uint32_t inst);
+    uint8_t  decode_opcode (uint32_t inst);
+
+// Core functions
+    InstType recognize_inst (uint32_t inst);
 public:
     Inst* decode_inst (uint32_t inst);
 

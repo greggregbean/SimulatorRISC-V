@@ -4,6 +4,24 @@
 
 #include "regfile.hpp"
 
+enum class Opcode : uint8_t {
+    LUI      = 0b0110111,
+    AUIPC    = 0b0010111,
+    JAL      = 0b1101111,
+    JALR     = 0b1100111,
+    B        = 0b1100011,
+    L        = 0b0000011,
+    S        = 0b0100011,
+    A_I      = 0b0010011,
+    A        = 0b0110011,
+    F        = 0b0001111,
+    E        = 0b1110011,
+    A_I_W    = 0b0011011,
+    A_W      = 0b0111011,
+
+    NONE
+};
+
 enum class InstType {
     R,
     I,
@@ -11,10 +29,12 @@ enum class InstType {
     B,
     U,
     J,
+
     NONE
 };
 
 enum class InstName {
+    // RV32I Base Instruction Set
     LUI,
     AUIPC,
     JAL,
@@ -39,9 +59,9 @@ enum class InstName {
     XORI,
     ORI,
     ANDI,
-    SLLI,
-    SRLI,
-    SRAI,
+    //SLLI,  <- in RV64I Base Instruction Set
+    //SRLI,  <- in RV64I Base Instruction Set
+    //SRAI,  <- in RV64I Base Instruction Set
     ADD,
     SUB,
     SLL,
@@ -53,93 +73,98 @@ enum class InstName {
     OR,
     AND,
     FENCE,
-    FENCE_I,
+    FENCE_TSO,
+    PAUSE,
     ECALL,
     EBREAK,
-    CSRRW,
-    CSRRS,
-    CSRRC,
-    CSRRWI,
-    CSRRSI,
-    CSRRCI,
+
+    // RV64I Base Instruction Set
+    LWU,
+    LD,
+    SD,
+    SLLI,
+    SRLI,
+    SRAI,
+    ADDIW,
+    SLLIW,
+    SRLIW,
+    SRAIW,
+    ADDW,
+    SUBW,
+    SLLW,
+    SRLW,
+    SRAW,
+
     NONE
 };
 
 class Inst {
+private:
     friend class Decoder;
 
     InstType type = InstType::NONE;
     InstName name = InstName::NONE;
-    int32_t opcode;
-    void (*inst_executor) (Inst*) = nullptr;
+    Opcode opcode = Opcode::NONE;
+    
+    void (*executor) (Inst*) = nullptr;
 
 public:
-    Inst (InstType t, InstName n) : type (t), name (n) {}
+    virtual ~Inst() = 0;
 }; 
 
-class Inst_R final : public Inst  {
+class Inst_R final : public Inst {
+private:
     friend class Decoder;
 
-    int32_t funct7;
-    Reg rs2;
-    Reg rs1;
-    int32_t funct3;
-    Reg rd;
-
-public:
-    Inst_R (InstName n) : Inst (InstType::R, n) {}
+    uint8_t funct7;
+    uint8_t rs2;
+    uint8_t rs1;
+    uint8_t funct3;
+    uint8_t rd;
 }; 
 
-class Inst_I final : public Inst  {
+class Inst_I final : public Inst {
+private:
     friend class Decoder;
 
-    int32_t imm;
-    Reg rs1;
-    int32_t funct3;
-    Reg rd;
-
-public:
-    Inst_I (InstName n) : Inst (InstType::I, n) {}
+    uint32_t imm;
+    uint8_t  rs1;
+    uint8_t  funct3;
+    uint8_t  rd;
 }; 
 
-class Inst_S final : public Inst  {
+class Inst_S final : public Inst {
+private:
     friend class Decoder;
 
-    int32_t imm;
-    Reg rs2;
-    Reg rs1;
-    int32_t funct3;
-
-public:
-    Inst_S (InstName n) : Inst (InstType::S, n) {}
+    uint32_t imm;
+    uint8_t  rs2;
+    uint8_t  rs1;
+    uint8_t  funct3;
 }; 
 
-class Inst_B final : public Inst  {
+class Inst_B final : public Inst {
+private:
     friend class Decoder;
 
-    int32_t imm;
-    Reg rs2;
-    Reg rs1;
-    int32_t funct3;
-
-public:
-    Inst_B (InstName n) : Inst (InstType::B, n) {}
+    uint32_t imm;
+    uint8_t  rs2;
+    uint8_t  rs1;
+    uint8_t  funct3;
 }; 
 
-class Inst_U final : public Inst  {
+class Inst_U final : public Inst {
+private:
     friend class Decoder;
 
-    int32_t imm;
-    Reg rd;
-public:
-    Inst_U (InstName n) : Inst (InstType::U, n) {}       
+    uint32_t imm;
+    uint8_t  rd;      
 }; 
 
-class Inst_J final : public Inst  {
+class Inst_J final : public Inst {
+private:
     friend class Decoder;
 
-    int32_t imm;
-    Reg rd;
-public:
-    Inst_J (InstName n) : Inst (InstType::J, n) {}  
+    uint32_t imm;
+    uint8_t  rd;
 }; 
