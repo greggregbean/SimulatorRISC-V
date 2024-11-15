@@ -128,32 +128,32 @@ Inst* Decoder::decode_inst (uint32_t inst) {
 InstType Decoder::recognize_inst (uint32_t inst) {
     uint8_t funct7 = decode_funct7 (inst);
     uint8_t funct3 = decode_funct3 (inst);
-    uint8_t opcode = decode_opcode (inst);
+    Opcode  opcode = static_cast<Opcode>(decode_opcode (inst));
 
     switch (opcode) {
-        case static_cast<uint8_t>(Opcode::LUI):
+        case Opcode::LUI:
             tmp_inst_U.name = InstName::LUI;
             tmp_inst_U.executor = Executor::execute_LUI;
             return InstType::U;
 
-        case static_cast<uint8_t>(Opcode::AUIPC):
+        case Opcode::AUIPC:
             tmp_inst_U.name = InstName::AUIPC;
             tmp_inst_U.executor = Executor::execute_AUIPC;
             return InstType::U;
 
-        case static_cast<uint8_t>(Opcode::JAL):
+        case Opcode::JAL:
             tmp_inst_J.name = InstName::JAL;
             tmp_inst_J.executor = Executor::execute_JAL;
             return InstType::J;
             
-        case static_cast<uint8_t>(Opcode::JALR):
+        case Opcode::JALR:
             if (funct3 != 0b000)
                 return InstType::NONE;
             tmp_inst_I.name = InstName::JALR;
             tmp_inst_I.executor = Executor::execute_JALR;
             return InstType::I;
 
-        case static_cast<uint8_t>(Opcode::B):
+        case Opcode::B:
             switch (funct3) {
                 case 0b000:
                     tmp_inst_B.name = InstName::BEQ;
@@ -190,7 +190,7 @@ InstType Decoder::recognize_inst (uint32_t inst) {
             }
             return InstType::B;
     
-        case static_cast<uint8_t>(Opcode::L):
+        case Opcode::L:
             switch (funct3) {
                 case 0b000:
                     tmp_inst_I.name = InstName::LB;
@@ -232,7 +232,7 @@ InstType Decoder::recognize_inst (uint32_t inst) {
             }
             return InstType::I;
 
-        case static_cast<uint8_t>(Opcode::S):
+        case Opcode::S:
             switch (funct3) {
                 case 0b000:
                     tmp_inst_S.name = InstName::SB;
@@ -259,7 +259,7 @@ InstType Decoder::recognize_inst (uint32_t inst) {
             }
             return InstType::S;
              
-        case static_cast<uint8_t>(Opcode::A_I):
+        case Opcode::A_I:
             switch (funct3) {
                 case 0b000:
                     tmp_inst_I.name = InstName::ADDI;
@@ -320,7 +320,7 @@ InstType Decoder::recognize_inst (uint32_t inst) {
             }
             return InstType::I;  
 
-        case static_cast<uint8_t>(Opcode::A):
+        case Opcode::A:
             switch (funct3) {
                 case 0b000:
                     switch (funct7) {
@@ -403,7 +403,7 @@ InstType Decoder::recognize_inst (uint32_t inst) {
             }
             return InstType::R;
 
-        case static_cast<uint8_t>(Opcode::F):
+        case Opcode::F:
             switch (inst) {
                 case 0b10000011001100000000000000001111:
                     tmp_inst_I.name = InstName::FENCE_TSO;
@@ -423,7 +423,7 @@ InstType Decoder::recognize_inst (uint32_t inst) {
             }
             return InstType::I;
 
-        case static_cast<uint8_t>(Opcode::E):
+        case Opcode::E:
             switch (inst) {
                 case 0b00000000000000000000000001110011:
                     tmp_inst_I.name = InstName::ECALL;
@@ -440,7 +440,7 @@ InstType Decoder::recognize_inst (uint32_t inst) {
             }
             return InstType::I;
 
-        case static_cast<uint8_t>(Opcode::A_I_W):
+        case Opcode::A_I_W:
             switch (funct3) {
                 case 0b000:
                     tmp_inst_I.name = InstName::ADDIW;
@@ -476,7 +476,7 @@ InstType Decoder::recognize_inst (uint32_t inst) {
             }
             return InstType::I;
 
-        case static_cast<uint8_t>(Opcode::A_W):
+        case Opcode::A_W:
             switch (funct3) {
                 case 0b000:
                     switch (funct7) {
