@@ -1,5 +1,11 @@
 #pragma once
 
+#include <iostream>
+#include <vector>
+#include <fcntl.h>
+#include <unistd.h>
+#include <cassert>
+
 #include <gelf.h>
 #include <libelf.h>
 
