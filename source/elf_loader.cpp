@@ -32,7 +32,7 @@ void ELFLoader::load (Hart& hart) {
         assert (gelf_getphdr (elf, i, &seg_header) && "can't get the file segment");
 
         if (seg_header.p_type == PT_LOAD) {
-            Segment seg(seg_header, elf_buf.data());
+            Segment seg (seg_header, elf_buf.data());
             hart.save_in_memory (seg);
         }
     }

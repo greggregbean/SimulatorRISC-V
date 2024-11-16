@@ -66,6 +66,7 @@ Inst* Decoder::decode_inst (uint32_t inst) {
 
     switch (inst_type) {
         case InstType::R:
+            tmp_inst_R.type   = InstType::R;
             tmp_inst_R.opcode = static_cast<Opcode>(opcode);
             tmp_inst_R.funct7 = decode_funct7 (inst);
             tmp_inst_R.rs2    = decode_rs2 (inst);
@@ -77,6 +78,7 @@ Inst* Decoder::decode_inst (uint32_t inst) {
             break;
         
         case InstType::I:
+            tmp_inst_I.type   = InstType::I;
             tmp_inst_I.opcode = static_cast<Opcode>(opcode);
             tmp_inst_I.imm    = decode_imm_I (inst);
             tmp_inst_I.rs1    = decode_rs1 (inst);
@@ -87,6 +89,7 @@ Inst* Decoder::decode_inst (uint32_t inst) {
             break;
         
         case InstType::S:
+            tmp_inst_S.type   = InstType::S;
             tmp_inst_S.opcode = static_cast<Opcode>(opcode);
             tmp_inst_S.imm    = decode_imm_S (inst);
             tmp_inst_S.rs2    = decode_rs2 (inst);
@@ -97,6 +100,7 @@ Inst* Decoder::decode_inst (uint32_t inst) {
             break;
         
         case InstType::B:
+            tmp_inst_B.type   = InstType::B;
             tmp_inst_B.opcode = static_cast<Opcode>(opcode);
             tmp_inst_B.imm    = decode_imm_B (inst);
             tmp_inst_B.rs2    = decode_rs2 (inst);
@@ -107,6 +111,7 @@ Inst* Decoder::decode_inst (uint32_t inst) {
             break;
         
         case InstType::U:
+            tmp_inst_U.type   = InstType::U;
             tmp_inst_U.opcode = static_cast<Opcode>(opcode);
             tmp_inst_U.imm    = decode_imm_U (inst);
             tmp_inst_U.rd     = decode_rd (inst);
@@ -115,6 +120,7 @@ Inst* Decoder::decode_inst (uint32_t inst) {
             break;
         
         case InstType::J:
+            tmp_inst_J.type   = InstType::J;
             tmp_inst_J.opcode = static_cast<Opcode>(opcode);
             tmp_inst_J.imm    = decode_imm_J (inst);
             tmp_inst_J.rd     = decode_rd (inst);

@@ -10,12 +10,12 @@ void Hart::save_in_memory (Segment& segment) {
             return;
         }
 
-        memory.mem_store (vaddr - BASE_ADDRESS, segment.get_data(), vp_alignment);
+        memory.mem_store (vaddr - START_ADDRESS, segment.get_data(), vp_alignment);
     }
 
     //copy the remaining pages
     for (uint64_t vpage_offset = 0; vpage_offset < segment.get_size() - vp_alignment; vpage_offset += VPAGE_SIZE) {
-        uint64_t paddr = vaddr + vp_alignment + vpage_offset - BASE_ADDRESS;
+        uint64_t paddr = vaddr + vp_alignment + vpage_offset - START_ADDRESS;
 
         //determine the size for the record
         size_t store_size = VPAGE_SIZE;
@@ -29,18 +29,28 @@ void Hart::save_in_memory (Segment& segment) {
 void Hart::load_from_memory(uint64_t vaddr, void* load_ptr, int load_size) {
     assert ((load_size == BYTE_SIZE) || (load_size == HWORD_SIZE) ||
             (load_size == WORD_SIZE) || (load_size == DWORD_SIZE) &&
-            "incorrect load size(only 8, 16, 32, 64 b)");
-    assert (vaddr & (load_size - 1) == 0 && "incorrect alignment");
+            "incorrect load size (only 1, 2, 4, 8 b)");
+    assert (((vaddr % load_size) == 0) && "incorrect alignment");
     
-    memory.mem_load (vaddr - BASE_ADDRESS, load_ptr, load_size);
+    memory.mem_load (vaddr - START_ADDRESS, load_ptr, load_size);
 }
 
 void Hart::fetch () {
+    uint64_t cur_pc_val = pc.get_val();
+    uint32_t cur_inst;
 
+    load_from_memory (pc.get_val(), &cur_inst, WORD_SIZE);
+
+    pc.set_val  (cur_pc_val + WORD_SIZE);
+    fd.set_inst (cur_inst);
 }
 
 void Hart::decode () {
+    uint32_t cur_fd_inst = fd.get_inst ();
 
+    Inst* cur_de_inst = decoder.decode_inst (cur_fd_inst);
+
+    de.set_inst (cur_de_inst);
 }
 
 void Hart::execute() {
@@ -56,6 +66,6 @@ void Hart::run_pipeline () {
     while (true) {
         fetch();
         decode();
-        execute();
+        //execute();
     }
 }

@@ -13,5 +13,6 @@ public:
 
 class Regfile final {
 private:
+    friend class Hart;
     std::array<Reg, 32> regs;
 };
