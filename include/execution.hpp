@@ -3,6 +3,7 @@
 #include "core/inst.hpp"
 
 namespace Executor {  
+    // RV32I Base Instruction Set
     void execute_LUI (Inst* inst);
     void execute_AUIPC (Inst* inst);
     void execute_JAL (Inst* inst);
@@ -42,6 +43,8 @@ namespace Executor {
     void execute_PAUSE (Inst* inst);
     void execute_ECALL (Inst* inst);
     void execute_EBREAK (Inst* inst);
+
+    // RV64I Base Instruction Set (in addition to RV32I)
     void execute_LWU (Inst* inst);
     void execute_LD (Inst* inst);
     void execute_SD (Inst* inst);
@@ -57,4 +60,32 @@ namespace Executor {
     void execute_SLLW (Inst* inst);
     void execute_SRLW (Inst* inst);
     void execute_SRAW (Inst* inst);
+
+    // RV32/RV64 Zifencei Standard Extension
+    void execute_FENCE_I (Inst* inst);
+
+    // RV32/RV64 Zicsr Standard Extension
+    void execute_CSRRW (Inst* inst);
+    void execute_CSRRS (Inst* inst);
+    void execute_CSRRC (Inst* inst);
+    void execute_CSRRWI (Inst* inst);
+    void execute_CSRRSI (Inst* inst);
+    void execute_CSRRCI (Inst* inst);
+
+    // RV32M Standard Extension
+    void execute_MUL (Inst* inst);
+    void execute_MULH (Inst* inst);
+    void execute_MULHSU (Inst* inst);
+    void execute_MULHU (Inst* inst);
+    void execute_DIV (Inst* inst);
+    void execute_DIVU (Inst* inst);
+    void execute_REM (Inst* inst);
+    void execute_REMU (Inst* inst);
+
+    // RV64M Standard Extension (in addition to RV32M)
+    void execute_MULW (Inst* inst);
+    void execute_DIVW (Inst* inst);
+    void execute_DIVUW (Inst* inst);
+    void execute_REMW (Inst* inst);
+    void execute_REMUW (Inst* inst);
 };

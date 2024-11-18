@@ -1,18 +1,21 @@
 #include "execution.hpp"
 
-void Executor::execute_LUI(Inst *inst) {
+//-------------------------------------------------------------------------
+// RV32I Base Instruction Set
+//-------------------------------------------------------------------------
+void Executor::execute_LUI (Inst *inst) {
 }
 
-void Executor::execute_AUIPC(Inst *inst) {
+void Executor::execute_AUIPC (Inst *inst) {
 }
 
-void Executor::execute_JAL(Inst *inst) {
+void Executor::execute_JAL (Inst *inst) {
 }
 
-void Executor::execute_JALR(Inst *inst) {
+void Executor::execute_JALR (Inst *inst) {
 }
 
-void Executor::execute_BEQ(Inst *inst) {
+void Executor::execute_BEQ (Inst *inst) {
 }
 
 void Executor::execute_BNE (Inst* inst) {
@@ -151,6 +154,9 @@ void Executor::execute_EBREAK (Inst* inst) {
 
 }
 
+//-------------------------------------------------------------------------
+// RV64I Base Instruction Set (in addition to RV32I)
+//-------------------------------------------------------------------------
 void Executor::execute_LWU (Inst* inst) {
 
 }
@@ -210,3 +216,96 @@ void Executor::execute_SRLW (Inst* inst) {
 void Executor::execute_SRAW (Inst* inst) {
 
 }
+
+//-------------------------------------------------------------------------
+// RV32/RV64 Zifencei Standard Extension
+//-------------------------------------------------------------------------
+void Executor::execute_FENCE_I (Inst *inst) {
+
+}
+
+//-------------------------------------------------------------------------
+// RV32/RV64 Zicsr Standard Extension
+//-------------------------------------------------------------------------
+void Executor::execute_CSRRW (Inst *inst) {
+
+}
+
+void Executor::execute_CSRRS (Inst *inst) {
+
+}
+
+void Executor::execute_CSRRC (Inst *inst) {
+
+}
+
+void Executor::execute_CSRRWI (Inst *inst) {
+
+}
+
+void Executor::execute_CSRRSI (Inst *inst) {
+
+}
+
+void Executor::execute_CSRRCI (Inst *inst) {
+
+}
+
+//-------------------------------------------------------------------------
+// RV32M Standard Extension
+//-------------------------------------------------------------------------
+void Executor::execute_MUL (Inst* inst) {
+
+}
+
+void Executor::execute_MULH (Inst* inst) {
+
+}
+
+void Executor::execute_MULHSU (Inst* inst) {
+
+}
+
+void Executor::execute_MULHU (Inst* inst) {
+
+}
+
+void Executor::execute_DIV (Inst* inst) {
+
+}
+
+void Executor::execute_DIVU (Inst* inst) {
+
+}
+
+void Executor::execute_REM (Inst* inst) {
+
+}
+
+void Executor::execute_REMU (Inst* inst) {
+
+}
+
+//-------------------------------------------------------------------------
+// RV64M Standard Extension (in addition to RV32M)
+//-------------------------------------------------------------------------
+void Executor::execute_MULW (Inst* inst) {
+
+}
+
+void Executor::execute_DIVW (Inst* inst) {
+
+}
+
+void Executor::execute_DIVUW (Inst* inst) {
+
+}
+
+void Executor::execute_REMW (Inst* inst) {
+
+}
+
+void Executor::execute_REMUW (Inst* inst) {
+
+}
+

@@ -165,7 +165,7 @@ InstType Decoder::recognize_inst (uint32_t inst) {
             tmp_inst_I.executor = Executor::execute_JALR;
             return InstType::I;
 
-        case Opcode::B:
+        case Opcode::BRANCH:
             switch (funct3) {
                 case 0b000:
                     tmp_inst_B.name = InstName::BEQ;
@@ -202,7 +202,7 @@ InstType Decoder::recognize_inst (uint32_t inst) {
             }
             return InstType::B;
     
-        case Opcode::L:
+        case Opcode::LOAD:
             switch (funct3) {
                 case 0b000:
                     tmp_inst_I.name = InstName::LB;
@@ -244,7 +244,7 @@ InstType Decoder::recognize_inst (uint32_t inst) {
             }
             return InstType::I;
 
-        case Opcode::S:
+        case Opcode::STORE:
             switch (funct3) {
                 case 0b000:
                     tmp_inst_S.name = InstName::SB;
@@ -271,7 +271,7 @@ InstType Decoder::recognize_inst (uint32_t inst) {
             }
             return InstType::S;
              
-        case Opcode::A_I:
+        case Opcode::OP_IMM:
             switch (funct3) {
                 case 0b000:
                     tmp_inst_I.name = InstName::ADDI;
@@ -332,7 +332,7 @@ InstType Decoder::recognize_inst (uint32_t inst) {
             }
             return InstType::I;  
 
-        case Opcode::A:
+        case Opcode::OP:
             switch (funct3) {
                 case 0b000:
                     switch (funct7) {
@@ -346,37 +346,82 @@ InstType Decoder::recognize_inst (uint32_t inst) {
                             tmp_inst_R.executor = Executor::execute_SUB;
                             break;
 
+                        case 0b0000001:
+                            tmp_inst_R.name = InstName::MUL;
+                            tmp_inst_R.executor = Executor::execute_MUL;
+                            break;
+
                         default:
                             return InstType::NONE;
                     }
                     break;
                 
                 case 0b001:
-                    if (funct7 != 0b0000000)
-                        return InstType::NONE;
-                    tmp_inst_R.name = InstName::SLL;
-                    tmp_inst_R.executor = Executor::execute_SLL;
+                    switch (funct7) {
+                        case 0b0000000:
+                            tmp_inst_R.name = InstName::SLL;
+                            tmp_inst_R.executor = Executor::execute_SLL;
+                            break;
+                        
+                        case 0b0000001:
+                            tmp_inst_R.name = InstName::MULH;
+                            tmp_inst_R.executor = Executor::execute_MULH;
+                            break;
+                        
+                        default:
+                            return InstType::NONE;
+                    }
                     break;
                 
                 case 0b010:
-                    if (funct7 != 0b0000000)
-                        return InstType::NONE;
-                    tmp_inst_R.name = InstName::SLT;
-                    tmp_inst_R.executor = Executor::execute_SLT;
+                    switch (funct7) {
+                        case 0b0000000:
+                            tmp_inst_R.name = InstName::SLT;
+                            tmp_inst_R.executor = Executor::execute_SLT;
+                            break;
+                        
+                        case 0b0000001:
+                            tmp_inst_R.name = InstName::MULHSU;
+                            tmp_inst_R.executor = Executor::execute_MULHSU;
+                            break;
+                        
+                        default:
+                            return InstType::NONE;
+                    }
                     break;
 
                 case 0b011:
-                    if (funct7 != 0b0000000)
-                        return InstType::NONE;
-                    tmp_inst_R.name = InstName::SLTU;
-                    tmp_inst_R.executor = Executor::execute_SLTU;
+                    switch (funct7) {
+                        case 0b0000000:
+                            tmp_inst_R.name = InstName::SLTU;
+                            tmp_inst_R.executor = Executor::execute_SLTU;
+                            break;
+                        
+                        case 0b0000001:
+                            tmp_inst_R.name = InstName::MULHU;
+                            tmp_inst_R.executor = Executor::execute_MULHU;
+                            break;
+                        
+                        default:
+                            return InstType::NONE;
+                    }
                     break;
                 
                 case 0b100:
-                    if (funct7 != 0b0000000)
-                        return InstType::NONE;
-                    tmp_inst_R.name = InstName::XOR;
-                    tmp_inst_R.executor = Executor::execute_XOR;
+                    switch (funct7) {
+                        case 0b0000000:
+                            tmp_inst_R.name = InstName::XOR;
+                            tmp_inst_R.executor = Executor::execute_XOR;
+                            break;
+                        
+                        case 0b0000001:
+                            tmp_inst_R.name = InstName::DIV;
+                            tmp_inst_R.executor = Executor::execute_DIV;
+                            break;
+                        
+                        default:
+                            return InstType::NONE;
+                    }
                     break;
                 
                 case 0b101:
@@ -391,23 +436,48 @@ InstType Decoder::recognize_inst (uint32_t inst) {
                             tmp_inst_R.executor = Executor::execute_SRA;
                             break;
 
+                        case 0b0000001:
+                            tmp_inst_R.name = InstName::DIVU;
+                            tmp_inst_R.executor = Executor::execute_DIVU;
+                            break;
+
                         default:
                             return InstType::NONE;
                     }
                     break;
                 
                 case 0b110:
-                    if (funct7 != 0b0000000)
-                        return InstType::NONE;
-                    tmp_inst_R.name = InstName::OR;
-                    tmp_inst_R.executor = Executor::execute_OR;
+                    switch (funct7) {
+                        case 0b0000000:
+                            tmp_inst_R.name = InstName::OR;
+                            tmp_inst_R.executor = Executor::execute_OR;
+                            break;
+                        
+                        case 0b0000001:
+                            tmp_inst_R.name = InstName::REM;
+                            tmp_inst_R.executor = Executor::execute_REM;
+                            break;
+                        
+                        default:
+                            return InstType::NONE;
+                    }
                     break;
                 
                 case 0b111:
-                    if (funct7 != 0b0000000)
-                        return InstType::NONE;
-                    tmp_inst_R.name = InstName::AND;
-                    tmp_inst_R.executor = Executor::execute_AND;
+                    switch (funct7) {
+                        case 0b0000000:
+                            tmp_inst_R.name = InstName::AND;
+                            tmp_inst_R.executor = Executor::execute_AND;
+                            break;
+                        
+                        case 0b0000001:
+                            tmp_inst_R.name = InstName::REMU;
+                            tmp_inst_R.executor = Executor::execute_REMU;
+                            break;
+                        
+                        default:
+                            return InstType::NONE;
+                    }
                     break;
 
                 default:
@@ -415,44 +485,88 @@ InstType Decoder::recognize_inst (uint32_t inst) {
             }
             return InstType::R;
 
-        case Opcode::F:
-            switch (inst) {
-                case 0b10000011001100000000000000001111:
-                    tmp_inst_I.name = InstName::FENCE_TSO;
-                    tmp_inst_I.executor = Executor::execute_FENCE_TSO;
+        case Opcode::MISC_MEM:
+            switch (funct3) {
+                case 0b000:
+                    switch (inst) {
+                        case 0b10000011001100000000000000001111:
+                            tmp_inst_I.name = InstName::FENCE_TSO;
+                            tmp_inst_I.executor = Executor::execute_FENCE_TSO;
+                            break;
+                        
+                        case 0b00000001000000000000000000001111:
+                            tmp_inst_I.name = InstName::PAUSE;
+                            tmp_inst_I.executor = Executor::execute_PAUSE;  
+                            break;        
+
+                        default:
+                            tmp_inst_I.name = InstName::FENCE;
+                            tmp_inst_I.executor = Executor::execute_FENCE;
+                    }
                     break;
                 
-                case 0b00000001000000000000000000001111:
-                    tmp_inst_I.name = InstName::PAUSE;
-                    tmp_inst_I.executor = Executor::execute_PAUSE;  
-                    break;        
-
-                default:
-                    if (funct3 != 0b000)
-                        return InstType::NONE;
-                    tmp_inst_I.name = InstName::FENCE;
-                    tmp_inst_I.executor = Executor::execute_FENCE;
-            }
-            return InstType::I;
-
-        case Opcode::E:
-            switch (inst) {
-                case 0b00000000000000000000000001110011:
-                    tmp_inst_I.name = InstName::ECALL;
-                    tmp_inst_I.executor = Executor::execute_ECALL;
+                case 0b001:
+                    tmp_inst_I.name = InstName::FENCE_I;
+                    tmp_inst_I.executor = Executor::execute_FENCE_I;
                     break;
                 
-                case 0b00000000000100000000000001110011:
-                    tmp_inst_I.name = InstName::EBREAK;
-                    tmp_inst_I.executor = Executor::execute_EBREAK;  
-                    break;     
-
                 default:
                     return InstType::NONE;
             }
             return InstType::I;
 
-        case Opcode::A_I_W:
+        case Opcode::SYSTEM:
+            switch (funct3) {
+                case 0b000:
+                    switch (inst) {
+                        case 0b00000000000000000000000001110011:
+                            tmp_inst_I.name = InstName::ECALL;
+                            tmp_inst_I.executor = Executor::execute_ECALL;
+                            break;
+                        
+                        case 0b00000000000100000000000001110011:
+                            tmp_inst_I.name = InstName::EBREAK;
+                            tmp_inst_I.executor = Executor::execute_EBREAK;  
+                            break;     
+
+                        default:
+                            return InstType::NONE;
+                    }
+                    break;
+
+                case 0b001:
+                    tmp_inst_I.name = InstName::CSRRW;
+                    tmp_inst_I.executor = Executor::execute_CSRRW;
+                    break;
+
+                case 0b010:
+                    tmp_inst_I.name = InstName::CSRRS;
+                    tmp_inst_I.executor = Executor::execute_CSRRS;
+                    break;
+
+                case 0b011:
+                    tmp_inst_I.name = InstName::CSRRC;
+                    tmp_inst_I.executor = Executor::execute_CSRRC;
+                    break;
+
+                case 0b101:
+                    tmp_inst_I.name = InstName::CSRRWI;
+                    tmp_inst_I.executor = Executor::execute_CSRRWI;
+                    break;
+
+                case 0b110:
+                    tmp_inst_I.name = InstName::CSRRSI;
+                    tmp_inst_I.executor = Executor::execute_CSRRSI;
+                    break;
+
+                case 0b111:
+                    tmp_inst_I.name = InstName::CSRRCI;
+                    tmp_inst_I.executor = Executor::execute_CSRRCI;
+                    break;
+            }
+            return InstType::I;
+
+        case Opcode::OP_IMM_32:
             switch (funct3) {
                 case 0b000:
                     tmp_inst_I.name = InstName::ADDIW;
@@ -488,7 +602,7 @@ InstType Decoder::recognize_inst (uint32_t inst) {
             }
             return InstType::I;
 
-        case Opcode::A_W:
+        case Opcode::OP_32:
             switch (funct3) {
                 case 0b000:
                     switch (funct7) {
@@ -500,6 +614,11 @@ InstType Decoder::recognize_inst (uint32_t inst) {
                         case 0b0100000:
                             tmp_inst_R.name = InstName::SUBW;
                             tmp_inst_R.executor = Executor::execute_SUBW;
+                            break;
+                        
+                        case 0b0000001:
+                            tmp_inst_R.name = InstName::MULW;
+                            tmp_inst_R.executor = Executor::execute_MULW;
                             break;
                         
                         default:
@@ -526,9 +645,35 @@ InstType Decoder::recognize_inst (uint32_t inst) {
                             tmp_inst_R.executor = Executor::execute_SRAW;
                             break;
                         
+                        case 0b0000001:
+                            tmp_inst_R.name = InstName::DIVUW;
+                            tmp_inst_R.executor = Executor::execute_DIVUW;
+                            break;
+                        
                         default:
                             return InstType::NONE;
                     }
+                    break;
+                
+                case 0b100:
+                    if (funct7 != 0b0000001)
+                        return InstType::NONE;
+                    tmp_inst_R.name = InstName::DIVW;
+                    tmp_inst_R.executor = Executor::execute_DIVW;
+                    break;
+                
+                case 0b110:
+                    if (funct7 != 0b0000001)
+                        return InstType::NONE;
+                    tmp_inst_R.name = InstName::REMW;
+                    tmp_inst_R.executor = Executor::execute_REMW;
+                    break;
+                
+                case 0b111:
+                    if (funct7 != 0b0000001)
+                        return InstType::NONE;
+                    tmp_inst_R.name = InstName::REMUW;
+                    tmp_inst_R.executor = Executor::execute_REMUW;
                     break;
                 
                 default:
