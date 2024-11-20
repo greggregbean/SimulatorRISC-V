@@ -132,7 +132,7 @@ private:
     InstName name = InstName::NONE;
     Opcode opcode = Opcode::NONE;
     
-    void (*executor) (Inst*) = nullptr;
+    void (*execute_func) (Inst*) = nullptr;
 
 public:
     virtual ~Inst() {};

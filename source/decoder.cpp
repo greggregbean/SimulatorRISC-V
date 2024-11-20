@@ -1,4 +1,4 @@
-#include "decoder.hpp"
+#include "stages/decoder.hpp"
 
 //--------------------------------------------------------------------------
 // Auxiliary functions
@@ -136,7 +136,7 @@ Inst* Decoder::decode_inst (uint32_t inst) {
     return result_inst;
 }
 
-// Recognize instruction relying on opcode, funct3 and funct7 and set appropriate executor
+// Recognize instruction relying on opcode, funct3 and funct7 and set appropriate execute_func
 InstType Decoder::recognize_inst (uint32_t inst) {
     uint8_t funct7 = decode_funct7 (inst);
     uint8_t funct3 = decode_funct3 (inst);
@@ -145,56 +145,56 @@ InstType Decoder::recognize_inst (uint32_t inst) {
     switch (opcode) {
         case Opcode::LUI:
             tmp_inst_U.name = InstName::LUI;
-            tmp_inst_U.executor = Executor::execute_LUI;
+            tmp_inst_U.execute_func = execute_LUI;
             return InstType::U;
 
         case Opcode::AUIPC:
             tmp_inst_U.name = InstName::AUIPC;
-            tmp_inst_U.executor = Executor::execute_AUIPC;
+            tmp_inst_U.execute_func = execute_AUIPC;
             return InstType::U;
 
         case Opcode::JAL:
             tmp_inst_J.name = InstName::JAL;
-            tmp_inst_J.executor = Executor::execute_JAL;
+            tmp_inst_J.execute_func = execute_JAL;
             return InstType::J;
             
         case Opcode::JALR:
             if (funct3 != 0b000)
                 return InstType::NONE;
             tmp_inst_I.name = InstName::JALR;
-            tmp_inst_I.executor = Executor::execute_JALR;
+            tmp_inst_I.execute_func = execute_JALR;
             return InstType::I;
 
         case Opcode::BRANCH:
             switch (funct3) {
                 case 0b000:
                     tmp_inst_B.name = InstName::BEQ;
-                    tmp_inst_B.executor = Executor::execute_BEQ;
+                    tmp_inst_B.execute_func = execute_BEQ;
                     break;
 
                 case 0b001:
                     tmp_inst_B.name = InstName::BNE;
-                    tmp_inst_B.executor = Executor::execute_BNE;
+                    tmp_inst_B.execute_func = execute_BNE;
                     break;
 
                 case 0b100:
                     tmp_inst_B.name = InstName::BLT;
-                    tmp_inst_B.executor = Executor::execute_BLT;
+                    tmp_inst_B.execute_func = execute_BLT;
                     break;
 
                 case 0b101:
                     tmp_inst_B.name = InstName::BGE;
-                    tmp_inst_B.executor = Executor::execute_BGE;
+                    tmp_inst_B.execute_func = execute_BGE;
                     break;
 
                 case 0b110:
                     tmp_inst_B.name = InstName::BLTU;
-                    tmp_inst_B.executor = Executor::execute_BLTU;
+                    tmp_inst_B.execute_func = execute_BLTU;
                     break;
 
                 case 0b111:
                     tmp_inst_B.name = InstName::BGEU;
-                    tmp_inst_B.executor = Executor::execute_BGEU;
+                    tmp_inst_B.execute_func = execute_BGEU;
                     break;
 
                 default:
@@ -206,37 +206,37 @@ InstType Decoder::recognize_inst (uint32_t inst) {
             switch (funct3) {
                 case 0b000:
                     tmp_inst_I.name = InstName::LB;
-                    tmp_inst_I.executor = Executor::execute_LB;
+                    tmp_inst_I.execute_func = execute_LB;
                     break;
 
                 case 0b001:
                     tmp_inst_I.name = InstName::LH;
-                    tmp_inst_I.executor = Executor::execute_LH;
+                    tmp_inst_I.execute_func = execute_LH;
                     break;
 
                 case 0b010:
                     tmp_inst_I.name = InstName::LW;
-                    tmp_inst_I.executor = Executor::execute_LW;
+                    tmp_inst_I.execute_func = execute_LW;
                     break;
 
                 case 0b100:
                     tmp_inst_I.name = InstName::LBU;
-                    tmp_inst_I.executor = Executor::execute_LBU;
+                    tmp_inst_I.execute_func = execute_LBU;
                     break;
 
                 case 0b101:
                     tmp_inst_I.name = InstName::LHU;
-                    tmp_inst_I.executor = Executor::execute_LHU;
+                    tmp_inst_I.execute_func = execute_LHU;
                     break;
 
                 case 0b110:
                     tmp_inst_I.name = InstName::LWU;
-                    tmp_inst_I.executor = Executor::execute_LWU;
+                    tmp_inst_I.execute_func = execute_LWU;
                     break;
 
                 case 0b011:
                     tmp_inst_I.name = InstName::LD;
-                    tmp_inst_I.executor = Executor::execute_LD;
+                    tmp_inst_I.execute_func = execute_LD;
                     break;
 
                 default:
@@ -248,22 +248,22 @@ InstType Decoder::recognize_inst (uint32_t inst) {
             switch (funct3) {
                 case 0b000:
                     tmp_inst_S.name = InstName::SB;
-                    tmp_inst_S.executor = Executor::execute_SB;
+                    tmp_inst_S.execute_func = execute_SB;
                     break;
 
                 case 0b001:
                     tmp_inst_S.name = InstName::SH;
-                    tmp_inst_S.executor = Executor::execute_SH;
+                    tmp_inst_S.execute_func = execute_SH;
                     break;
 
                 case 0b010:
                     tmp_inst_S.name = InstName::SW;
-                    tmp_inst_S.executor = Executor::execute_SW;
+                    tmp_inst_S.execute_func = execute_SW;
                     break;
                 
                 case 0b011:
                     tmp_inst_S.name = InstName::SD;
-                    tmp_inst_S.executor = Executor::execute_SD;
+                    tmp_inst_S.execute_func = execute_SD;
                     break;
 
                 default:
@@ -275,51 +275,51 @@ InstType Decoder::recognize_inst (uint32_t inst) {
             switch (funct3) {
                 case 0b000:
                     tmp_inst_I.name = InstName::ADDI;
-                    tmp_inst_I.executor = Executor::execute_ADDI;
+                    tmp_inst_I.execute_func = execute_ADDI;
                     break;
 
                 case 0b010:
                     tmp_inst_I.name = InstName::SLTI;
-                    tmp_inst_I.executor = Executor::execute_SLTI;
+                    tmp_inst_I.execute_func = execute_SLTI;
                     break;
 
                 case 0b011:
                     tmp_inst_I.name = InstName::SLTIU;
-                    tmp_inst_I.executor = Executor::execute_SLTIU;
+                    tmp_inst_I.execute_func = execute_SLTIU;
                     break;
 
                 case 0b100:
                     tmp_inst_I.name = InstName::XORI;
-                    tmp_inst_I.executor = Executor::execute_XORI;
+                    tmp_inst_I.execute_func = execute_XORI;
                     break;
 
                 case 0b110:
                     tmp_inst_I.name = InstName::ORI;
-                    tmp_inst_I.executor = Executor::execute_ORI;
+                    tmp_inst_I.execute_func = execute_ORI;
                     break;
 
                 case 0b111:
                     tmp_inst_I.name = InstName::ANDI;
-                    tmp_inst_I.executor = Executor::execute_ANDI;
+                    tmp_inst_I.execute_func = execute_ANDI;
                     break;
                 
                 case 0b001:
                     if (funct7 >> 1 != 0b000000)
                         return InstType::NONE;
                     tmp_inst_I.name = InstName::SLLI;
-                    tmp_inst_I.executor = Executor::execute_SLLI;
+                    tmp_inst_I.execute_func = execute_SLLI;
                     break;
                 
                 case 0b101:
                     switch (funct7 >> 1) {
                         case 0b000000:
                             tmp_inst_I.name = InstName::SRLI;
-                            tmp_inst_I.executor = Executor::execute_SRLI;
+                            tmp_inst_I.execute_func = execute_SRLI;
                             break;
 
                         case 0b010000:
                             tmp_inst_I.name = InstName::SRAI;
-                            tmp_inst_I.executor = Executor::execute_SRAI;
+                            tmp_inst_I.execute_func = execute_SRAI;
                             break;
 
                         default:
@@ -338,17 +338,17 @@ InstType Decoder::recognize_inst (uint32_t inst) {
                     switch (funct7) {
                         case 0b0000000:
                             tmp_inst_R.name = InstName::ADD;
-                            tmp_inst_R.executor = Executor::execute_ADD;
+                            tmp_inst_R.execute_func = execute_ADD;
                             break;
 
                         case 0b0100000:
                             tmp_inst_R.name = InstName::SUB;
-                            tmp_inst_R.executor = Executor::execute_SUB;
+                            tmp_inst_R.execute_func = execute_SUB;
                             break;
 
                         case 0b0000001:
                             tmp_inst_R.name = InstName::MUL;
-                            tmp_inst_R.executor = Executor::execute_MUL;
+                            tmp_inst_R.execute_func = execute_MUL;
                             break;
 
                         default:
@@ -360,12 +360,12 @@ InstType Decoder::recognize_inst (uint32_t inst) {
                     switch (funct7) {
                         case 0b0000000:
                             tmp_inst_R.name = InstName::SLL;
-                            tmp_inst_R.executor = Executor::execute_SLL;
+                            tmp_inst_R.execute_func = execute_SLL;
                             break;
                         
                         case 0b0000001:
                             tmp_inst_R.name = InstName::MULH;
-                            tmp_inst_R.executor = Executor::execute_MULH;
+                            tmp_inst_R.execute_func = execute_MULH;
                             break;
                         
                         default:
@@ -377,12 +377,12 @@ InstType Decoder::recognize_inst (uint32_t inst) {
                     switch (funct7) {
                         case 0b0000000:
                             tmp_inst_R.name = InstName::SLT;
-                            tmp_inst_R.executor = Executor::execute_SLT;
+                            tmp_inst_R.execute_func = execute_SLT;
                             break;
                         
                         case 0b0000001:
                             tmp_inst_R.name = InstName::MULHSU;
-                            tmp_inst_R.executor = Executor::execute_MULHSU;
+                            tmp_inst_R.execute_func = execute_MULHSU;
                             break;
                         
                         default:
@@ -394,12 +394,12 @@ InstType Decoder::recognize_inst (uint32_t inst) {
                     switch (funct7) {
                         case 0b0000000:
                             tmp_inst_R.name = InstName::SLTU;
-                            tmp_inst_R.executor = Executor::execute_SLTU;
+                            tmp_inst_R.execute_func = execute_SLTU;
                             break;
                         
                         case 0b0000001:
                             tmp_inst_R.name = InstName::MULHU;
-                            tmp_inst_R.executor = Executor::execute_MULHU;
+                            tmp_inst_R.execute_func = execute_MULHU;
                             break;
                         
                         default:
@@ -411,12 +411,12 @@ InstType Decoder::recognize_inst (uint32_t inst) {
                     switch (funct7) {
                         case 0b0000000:
                             tmp_inst_R.name = InstName::XOR;
-                            tmp_inst_R.executor = Executor::execute_XOR;
+                            tmp_inst_R.execute_func = execute_XOR;
                             break;
                         
                         case 0b0000001:
                             tmp_inst_R.name = InstName::DIV;
-                            tmp_inst_R.executor = Executor::execute_DIV;
+                            tmp_inst_R.execute_func = execute_DIV;
                             break;
                         
                         default:
@@ -428,17 +428,17 @@ InstType Decoder::recognize_inst (uint32_t inst) {
                     switch (funct7) {
                         case 0b0000000:
                             tmp_inst_R.name = InstName::SRL;
-                            tmp_inst_R.executor = Executor::execute_SRL;
+                            tmp_inst_R.execute_func = execute_SRL;
                             break;
 
                         case 0b0100000:
                             tmp_inst_R.name = InstName::SRA;
-                            tmp_inst_R.executor = Executor::execute_SRA;
+                            tmp_inst_R.execute_func = execute_SRA;
                             break;
 
                         case 0b0000001:
                             tmp_inst_R.name = InstName::DIVU;
-                            tmp_inst_R.executor = Executor::execute_DIVU;
+                            tmp_inst_R.execute_func = execute_DIVU;
                             break;
 
                         default:
@@ -450,12 +450,12 @@ InstType Decoder::recognize_inst (uint32_t inst) {
                     switch (funct7) {
                         case 0b0000000:
                             tmp_inst_R.name = InstName::OR;
-                            tmp_inst_R.executor = Executor::execute_OR;
+                            tmp_inst_R.execute_func = execute_OR;
                             break;
                         
                         case 0b0000001:
                             tmp_inst_R.name = InstName::REM;
-                            tmp_inst_R.executor = Executor::execute_REM;
+                            tmp_inst_R.execute_func = execute_REM;
                             break;
                         
                         default:
@@ -467,12 +467,12 @@ InstType Decoder::recognize_inst (uint32_t inst) {
                     switch (funct7) {
                         case 0b0000000:
                             tmp_inst_R.name = InstName::AND;
-                            tmp_inst_R.executor = Executor::execute_AND;
+                            tmp_inst_R.execute_func = execute_AND;
                             break;
                         
                         case 0b0000001:
                             tmp_inst_R.name = InstName::REMU;
-                            tmp_inst_R.executor = Executor::execute_REMU;
+                            tmp_inst_R.execute_func = execute_REMU;
                             break;
                         
                         default:
@@ -491,23 +491,23 @@ InstType Decoder::recognize_inst (uint32_t inst) {
                     switch (inst) {
                         case 0b10000011001100000000000000001111:
                             tmp_inst_I.name = InstName::FENCE_TSO;
-                            tmp_inst_I.executor = Executor::execute_FENCE_TSO;
+                            tmp_inst_I.execute_func = execute_FENCE_TSO;
                             break;
                         
                         case 0b00000001000000000000000000001111:
                             tmp_inst_I.name = InstName::PAUSE;
-                            tmp_inst_I.executor = Executor::execute_PAUSE;  
+                            tmp_inst_I.execute_func = execute_PAUSE;  
                             break;        
 
                         default:
                             tmp_inst_I.name = InstName::FENCE;
-                            tmp_inst_I.executor = Executor::execute_FENCE;
+                            tmp_inst_I.execute_func = execute_FENCE;
                     }
                     break;
                 
                 case 0b001:
                     tmp_inst_I.name = InstName::FENCE_I;
-                    tmp_inst_I.executor = Executor::execute_FENCE_I;
+                    tmp_inst_I.execute_func = execute_FENCE_I;
                     break;
                 
                 default:
@@ -521,12 +521,12 @@ InstType Decoder::recognize_inst (uint32_t inst) {
                     switch (inst) {
                         case 0b00000000000000000000000001110011:
                             tmp_inst_I.name = InstName::ECALL;
-                            tmp_inst_I.executor = Executor::execute_ECALL;
+                            tmp_inst_I.execute_func = execute_ECALL;
                             break;
                         
                         case 0b00000000000100000000000001110011:
                             tmp_inst_I.name = InstName::EBREAK;
-                            tmp_inst_I.executor = Executor::execute_EBREAK;  
+                            tmp_inst_I.execute_func = execute_EBREAK;  
                             break;     
 
                         default:
@@ -536,32 +536,32 @@ InstType Decoder::recognize_inst (uint32_t inst) {
 
                 case 0b001:
                     tmp_inst_I.name = InstName::CSRRW;
-                    tmp_inst_I.executor = Executor::execute_CSRRW;
+                    tmp_inst_I.execute_func = execute_CSRRW;
                     break;
 
                 case 0b010:
                     tmp_inst_I.name = InstName::CSRRS;
-                    tmp_inst_I.executor = Executor::execute_CSRRS;
+                    tmp_inst_I.execute_func = execute_CSRRS;
                     break;
 
                 case 0b011:
                     tmp_inst_I.name = InstName::CSRRC;
-                    tmp_inst_I.executor = Executor::execute_CSRRC;
+                    tmp_inst_I.execute_func = execute_CSRRC;
                     break;
 
                 case 0b101:
                     tmp_inst_I.name = InstName::CSRRWI;
-                    tmp_inst_I.executor = Executor::execute_CSRRWI;
+                    tmp_inst_I.execute_func = execute_CSRRWI;
                     break;
 
                 case 0b110:
                     tmp_inst_I.name = InstName::CSRRSI;
-                    tmp_inst_I.executor = Executor::execute_CSRRSI;
+                    tmp_inst_I.execute_func = execute_CSRRSI;
                     break;
 
                 case 0b111:
                     tmp_inst_I.name = InstName::CSRRCI;
-                    tmp_inst_I.executor = Executor::execute_CSRRCI;
+                    tmp_inst_I.execute_func = execute_CSRRCI;
                     break;
             }
             return InstType::I;
@@ -570,26 +570,26 @@ InstType Decoder::recognize_inst (uint32_t inst) {
             switch (funct3) {
                 case 0b000:
                     tmp_inst_I.name = InstName::ADDIW;
-                    tmp_inst_I.executor = Executor::execute_ADDIW;
+                    tmp_inst_I.execute_func = execute_ADDIW;
                     break;
                 
                 case 0b001:
                     if (funct7 != 0b0000000)
                         return InstType::NONE;
                     tmp_inst_I.name = InstName::SLLIW;
-                    tmp_inst_I.executor = Executor::execute_SLLIW;
+                    tmp_inst_I.execute_func = execute_SLLIW;
                     break;
                 
                 case 0b101:
                     switch (funct7) {
                         case 0b0000000:
                             tmp_inst_I.name = InstName::SRLIW;
-                            tmp_inst_I.executor = Executor::execute_SRLIW;
+                            tmp_inst_I.execute_func = execute_SRLIW;
                             break;
                         
                         case 0b0100000:
                             tmp_inst_I.name = InstName::SRAIW;
-                            tmp_inst_I.executor = Executor::execute_SRAIW;
+                            tmp_inst_I.execute_func = execute_SRAIW;
                             break;
                         
                         default:
@@ -608,17 +608,17 @@ InstType Decoder::recognize_inst (uint32_t inst) {
                     switch (funct7) {
                         case 0b0000000:
                             tmp_inst_R.name = InstName::ADDW;
-                            tmp_inst_R.executor = Executor::execute_ADDW;
+                            tmp_inst_R.execute_func = execute_ADDW;
                             break;
                         
                         case 0b0100000:
                             tmp_inst_R.name = InstName::SUBW;
-                            tmp_inst_R.executor = Executor::execute_SUBW;
+                            tmp_inst_R.execute_func = execute_SUBW;
                             break;
                         
                         case 0b0000001:
                             tmp_inst_R.name = InstName::MULW;
-                            tmp_inst_R.executor = Executor::execute_MULW;
+                            tmp_inst_R.execute_func = execute_MULW;
                             break;
                         
                         default:
@@ -630,24 +630,24 @@ InstType Decoder::recognize_inst (uint32_t inst) {
                     if (funct7 != 0b0000000)
                         return InstType::NONE;
                     tmp_inst_R.name = InstName::SLLW;
-                    tmp_inst_R.executor = Executor::execute_SLLW;
+                    tmp_inst_R.execute_func = execute_SLLW;
                     break;
                 
                 case 0b101:
                     switch (funct7) {
                         case 0b0000000:
                             tmp_inst_R.name = InstName::SRLW;
-                            tmp_inst_R.executor = Executor::execute_SRLW;
+                            tmp_inst_R.execute_func = execute_SRLW;
                             break;
                         
                         case 0b0100000:
                             tmp_inst_R.name = InstName::SRAW;
-                            tmp_inst_R.executor = Executor::execute_SRAW;
+                            tmp_inst_R.execute_func = execute_SRAW;
                             break;
                         
                         case 0b0000001:
                             tmp_inst_R.name = InstName::DIVUW;
-                            tmp_inst_R.executor = Executor::execute_DIVUW;
+                            tmp_inst_R.execute_func = execute_DIVUW;
                             break;
                         
                         default:
@@ -659,21 +659,21 @@ InstType Decoder::recognize_inst (uint32_t inst) {
                     if (funct7 != 0b0000001)
                         return InstType::NONE;
                     tmp_inst_R.name = InstName::DIVW;
-                    tmp_inst_R.executor = Executor::execute_DIVW;
+                    tmp_inst_R.execute_func = execute_DIVW;
                     break;
                 
                 case 0b110:
                     if (funct7 != 0b0000001)
                         return InstType::NONE;
                     tmp_inst_R.name = InstName::REMW;
-                    tmp_inst_R.executor = Executor::execute_REMW;
+                    tmp_inst_R.execute_func = execute_REMW;
                     break;
                 
                 case 0b111:
                     if (funct7 != 0b0000001)
                         return InstType::NONE;
                     tmp_inst_R.name = InstName::REMUW;
-                    tmp_inst_R.executor = Executor::execute_REMUW;
+                    tmp_inst_R.execute_func = execute_REMUW;
                     break;
                 
                 default:
