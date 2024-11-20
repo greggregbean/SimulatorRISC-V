@@ -2,6 +2,30 @@
 
 #include "core/inst.hpp"
 
+void execute_R_inst () {
+
+}
+
+void execute_I_inst () {
+   
+}
+
+void execute_S_inst () {
+   
+}
+
+void execute_B_inst () {
+   
+}
+
+void execute_U_inst () {
+   
+}
+
+void execute_J_inst () {
+   
+}
+
 namespace Executor {  
     // RV32I Base Instruction Set
     void execute_LUI (Inst* inst);
