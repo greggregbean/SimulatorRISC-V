@@ -2,14 +2,14 @@
 
 #include <iostream>
 
-// Core
 #include "core/regfile.hpp"
 #include "core/segment.hpp"
+#include "core/inst.hpp"
 
-// Include stages
+#include "utils/constants.hpp"
+
 #include "memory.hpp"
 #include "stages/decoder.hpp"
-#include "stages/executor.hpp"
 
 //--------------------------------------------------------------------------
 // Cells
@@ -40,7 +40,6 @@ struct em_cell {};
 // Cell connecting memory and writeback stages
 struct mw_cell {};
 
-
 //--------------------------------------------------------------------------
 // Hart
 //--------------------------------------------------------------------------
@@ -51,23 +50,27 @@ private:
     Reg pc;
 
     Decoder  decoder;
-    Executor executor;
 
-    void fetch();
+    void fetch ();
     fd_cell fd;
-    void decode();
+    void decode ();
     de_cell de;
-    void execute();
+    void execute ();
     em_cell em;
-    void memory_access();
+    void memory_access ();
     mw_cell mw;
-    void write_back();
+    void write_back ();
 
 public:
     void save_in_memory (Segment& segment);
     void load_from_memory (uint64_t vaddr, void* load_ptr, int load_size);
-    void run_pipeline();
-    void memory_dump() { memory.dump (); }
+    void memory_dump () { memory.dump (); }
+    
+    inline void set_reg_val (uint8_t reg, uint64_t v) { regfile.set_reg_val (reg, v); }
+    inline uint64_t get_reg_val (uint8_t reg) { return regfile.get_reg_val (reg); }
+    inline uint64_t get_pc_val () { return pc.get_val (); }
+
+    void run_pipeline ();
 
     Hart () {
         pc.set_val (START_ADDRESS);

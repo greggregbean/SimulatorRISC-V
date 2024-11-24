@@ -15,7 +15,7 @@ cmake --build build
 You need to configure supported arch and abi in compiler build:  
 
 ```
-./configure --prefix=/opt/riscv --with-arch=rv64ia --with-abi=lp64
+./configure --prefix=/opt/riscv/bin/ --with-arch=rv64g --with-abi=lp64
 ```
 
 ## Compile tests

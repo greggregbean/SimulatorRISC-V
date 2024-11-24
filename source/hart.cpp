@@ -1,3 +1,4 @@
+#include "stages/executor.hpp"
 #include "hart.hpp"
 
 void Hart::save_in_memory (Segment& segment) {
@@ -46,20 +47,23 @@ void Hart::fetch () {
 }
 
 void Hart::decode () {
-    uint32_t cur_fd_inst = fd.get_inst ();
+    uint32_t cur_fd_inst = fd.get_inst();
 
     Inst* cur_de_inst = decoder.decode_inst (cur_fd_inst);
 
     de.set_inst (cur_de_inst);
 }
 
-void Hart::execute() {
+void Hart::execute () {
+    Inst* cur_de_inst = de.get_inst();
+
+    cur_de_inst->execute_func (cur_de_inst, *this);
 }
 
-void Hart::memory_access() {
+void Hart::memory_access () {
 }
 
-void Hart::write_back() {
+void Hart::write_back () {
 }
 
 void Hart::run_pipeline () {

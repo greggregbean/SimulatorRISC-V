@@ -9,8 +9,9 @@
 #include <gelf.h>
 #include <libelf.h>
 
-#include "hart.hpp"
 #include "core/segment.hpp"
+
+class Hart;
 
 class ELFLoader {
 private:

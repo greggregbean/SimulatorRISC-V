@@ -1,4 +1,5 @@
 #include "elf_loader.hpp"
+#include "hart.hpp"
 
 void ELFLoader::load (Hart& hart) {
     assert (elf_version (EV_CURRENT) != EV_NONE && "libelf initialization failed");

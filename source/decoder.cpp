@@ -1,4 +1,5 @@
 #include "stages/decoder.hpp"
+#include "stages/executor.hpp"
 
 //--------------------------------------------------------------------------
 // Auxiliary functions

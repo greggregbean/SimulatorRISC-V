@@ -3,10 +3,8 @@
 #include <array>
 
 #include "core/inst.hpp"
-#include "executor.hpp"
 
-class Decoder
-{
+class Decoder {
 private:
 // Tmp insts, that are returned by decode_inst()
     Inst_R tmp_inst_R;
