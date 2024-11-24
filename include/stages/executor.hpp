@@ -6,13 +6,8 @@
 
 class Hart;
 
-inline uint64_t sext_imm12 (uint32_t imm) {
-    if (!(imm & (1 << 11)))
-        return imm;
-    
-    return uint64_t(imm) + 0xFFFFFFFFFFFFF000;
-}
-
+namespace Executor 
+{
 // RV32I Base Instruction Set
     void execute_LUI (Inst* inst, Hart& hart);
     void execute_AUIPC (Inst* inst, Hart& hart);
@@ -98,3 +93,4 @@ inline uint64_t sext_imm12 (uint32_t imm) {
     void execute_DIVUW (Inst* inst, Hart& hart);
     void execute_REMW (Inst* inst, Hart& hart);
     void execute_REMUW (Inst* inst, Hart& hart);
+};

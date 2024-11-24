@@ -68,6 +68,7 @@ public:
     
     inline void set_reg_val (uint8_t reg, uint64_t v) { regfile.set_reg_val (reg, v); }
     inline uint64_t get_reg_val (uint8_t reg) { return regfile.get_reg_val (reg); }
+    inline void set_pc_val (uint64_t new_pc) { pc.set_val (new_pc); }
     inline uint64_t get_pc_val () { return pc.get_val (); }
 
     void run_pipeline ();
