@@ -130,15 +130,19 @@ class Hart;
 class Inst {
     friend class Decoder;
     friend class Hart;
+    friend void set_nop_de_cell (Hart& hart);
 
 private:
     InstType type = InstType::NONE;
     InstName name = InstName::NONE;
     Opcode opcode = Opcode::NONE;
+    uint64_t addr = 0;
     
     void (*execute_func) (Inst*, Hart&) = nullptr;
 
 public:
+    inline uint64_t get_addr () { return addr; }
+
     virtual ~Inst() {};
 }; 
 
@@ -160,6 +164,7 @@ public:
 
 class Inst_I final : public Inst {
     friend class Decoder;
+    friend void set_nop_de_cell (Hart& hart);
 
 private:
     uint32_t imm;

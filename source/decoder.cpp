@@ -5,34 +5,34 @@
 // Auxiliary functions
 //--------------------------------------------------------------------------
 inline uint32_t Decoder::decode_imm_I (uint32_t inst) {
-    return inst >> 20;                              // imm [11:0]
+    return inst >> 20;                                // imm [11:0]
 }
 
 inline uint32_t Decoder::decode_imm_S (uint32_t inst) {
-    return ((inst >>  7) & 0b11111)        |        // imm [4:0]
-           ((inst >> 25) & 0b1111111) << 5 ;        // imm [11:5] 
+    return ((inst >>  7) & 0b11111)          |        // imm [4:0]
+           (((inst >> 25) & 0b1111111) << 5) ;        // imm [11:5] 
 }
 
 inline uint32_t Decoder::decode_imm_B (uint32_t inst) {
-    return ((inst >> 8)  & 0b1111)   << 1  |        // imm [4:1]
-           ((inst >> 25) & 0b111111) << 5  |        // imm [5:10]
-           ((inst >> 7)  & 0b1)      << 11 |        // imm [11]
-           ((inst >> 31) & 0b1)      << 12 ;        // imm [12]
+    return (((inst >> 8)  & 0b1111)   << 1)  |        // imm [4:1]
+           (((inst >> 25) & 0b111111) << 5)  |        // imm [5:10]
+           (((inst >> 7)  & 0b1)      << 11) |        // imm [11]
+           (((inst >> 31) & 0b1)      << 12) ;        // imm [12]
 }
 
 inline uint32_t Decoder::decode_imm_U (uint32_t inst) {
-    return inst >> 12;                              // imm [31:12]
+    return inst >> 12;                               // imm [31:12]
 }
 
 inline uint32_t Decoder::decode_imm_J (uint32_t inst) {
-    return ((inst >> 21) & 0b1111111111) << 1  |    // imm [10:1]
-           ((inst >> 20) & 0b1)          << 11 |    // imm [11]
-           ((inst >> 12) & 0b11111111)   << 12 |    // imm [19:12]
-           ((inst >> 31) & 0b1)          << 20 ;    // imm [20]
+    return (((inst >> 21) & 0b1111111111) << 1)  |    // imm [10:1]
+           (((inst >> 20) & 0b1)          << 11) |    // imm [11]
+           (((inst >> 12) & 0b11111111)   << 12) |    // imm [19:12]
+           (((inst >> 31) & 0b1)          << 20) ;    // imm [20]
 }
 
 inline uint8_t Decoder::decode_funct7 (uint32_t inst) {
-    return inst >> 25 & 0b1111111;                  // inst [31:25]
+    return (inst >> 25) & 0b1111111;                // inst [31:25]
 }
 
 inline uint8_t Decoder::decode_rs2 (uint32_t inst) {

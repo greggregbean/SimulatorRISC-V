@@ -36,26 +36,31 @@ void Hart::load_from_memory(uint64_t vaddr, void* load_ptr, int load_size) {
     memory.mem_load (vaddr - START_ADDRESS, load_ptr, load_size);
 }
 
+void Hart::store_in_memory(uint64_t vaddr, uint64_t val, int store_size) {}
+
 void Hart::fetch () {
     uint64_t cur_pc_val = pc.get_val();
     uint32_t cur_inst;
 
     load_from_memory (pc.get_val(), &cur_inst, WORD_SIZE);
 
-    pc.set_val  (cur_pc_val + WORD_SIZE);
-    fd.set_inst (cur_inst);
+    fd.inst = cur_inst;
+    fd.addr = pc.get_val();
+
+    pc.set_val (cur_pc_val + WORD_SIZE);
 }
 
 void Hart::decode () {
-    uint32_t cur_fd_inst = fd.get_inst();
+    uint32_t cur_fd_inst = fd.inst;
 
     Inst* cur_de_inst = decoder.decode_inst (cur_fd_inst);
+    cur_de_inst->addr = fd.addr;
 
-    de.set_inst (cur_de_inst);
+    de.inst = cur_de_inst;
 }
 
 void Hart::execute () {
-    Inst* cur_de_inst = de.get_inst();
+    Inst* cur_de_inst = de.inst;
 
     cur_de_inst->execute_func (cur_de_inst, *this);
 }

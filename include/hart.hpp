@@ -15,23 +15,14 @@
 // Cells
 //--------------------------------------------------------------------------
 // Cell connecting fetch and decode stages
-class fd_cell {
-private:
+struct fd_cell {
     uint32_t inst;
-
-public:
-    uint32_t get_inst () { return inst; }
-    void set_inst (uint32_t i) { inst = i; }
+    uint64_t addr;
 };
 
 // Cell connecting decode and execute stages
-class de_cell {
-private:
+struct de_cell {
     Inst* inst;
-
-public:
-    Inst* get_inst () { return inst; }
-    void set_inst (Inst* i) { inst = i; }
 };
 
 // Cell connecting execute and memory stages
@@ -48,8 +39,9 @@ private:
     Memory memory;
     Regfile regfile;
     Reg pc;
-
     Decoder  decoder;
+
+    bool is_stall = false;
 
     void fetch ();
     fd_cell fd;
@@ -61,9 +53,13 @@ private:
     mw_cell mw;
     void write_back ();
 
+    friend void set_nop_fd_cell (Hart& hart);
+    friend void set_nop_de_cell (Hart& hart);
+
 public:
     void save_in_memory (Segment& segment);
     void load_from_memory (uint64_t vaddr, void* load_ptr, int load_size);
+    void store_in_memory(uint64_t vaddr, uint64_t val, int store_size);
     void memory_dump () { memory.dump (); }
     
     inline void set_reg_val (uint8_t reg, uint64_t v) { regfile.set_reg_val (reg, v); }
