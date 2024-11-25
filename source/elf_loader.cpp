@@ -1,6 +1,8 @@
 #include "elf_loader.hpp"
 #include "hart.hpp"
 
+uint64_t START_ADDRESS = 0x80000000;
+
 void ELFLoader::load (Hart& hart) {
     assert (elf_version (EV_CURRENT) != EV_NONE && "libelf initialization failed");
    
@@ -25,15 +27,21 @@ void ELFLoader::load (Hart& hart) {
     //get file header
     GElf_Ehdr elf_header {};
     assert (gelf_getehdr (elf, &elf_header) && "can't get the file header");
+    hart.set_pc_val (elf_header.e_entry);
 
     int segment_num = elf_header.e_phnum;
     //process segments that are intended to be loaded into memory
+    bool first_load_segment_flag = true;
     for (int i = 0; i < segment_num; ++i) {
         GElf_Phdr seg_header{};
         assert (gelf_getphdr (elf, i, &seg_header) && "can't get the file segment");
 
         if (seg_header.p_type == PT_LOAD) {
             Segment seg (seg_header, elf_buf.data());
+            if(first_load_segment_flag) {
+                START_ADDRESS = seg.get_vaddr();
+                first_load_segment_flag = false;
+            }
             hart.save_in_memory (seg);
         }
     }

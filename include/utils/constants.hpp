@@ -7,5 +7,6 @@ static const int DWORD_SIZE = sizeof(uint64_t);
 
 static const int VPAGE_SIZE         = 1 << 12;
 static const int VPAGE_OFFSET_MASK  = VPAGE_SIZE - 1;
-static const int DEFAULT_MEM_SIZE   = 1 << 25;
-static const uint64_t START_ADDRESS = 0x80000000;
+static const int DEFAULT_MEM_SIZE   = 1 << 28;
+
+extern uint64_t START_ADDRESS;
