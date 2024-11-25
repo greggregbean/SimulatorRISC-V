@@ -4,6 +4,9 @@
 
 #include "core/inst.hpp"
 
+//--------------------------------------------------------------------------
+// Executor
+//--------------------------------------------------------------------------
 class Decoder {
 private:
 // Tmp insts, that are returned by decode_inst()

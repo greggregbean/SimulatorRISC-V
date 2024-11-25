@@ -26,10 +26,14 @@ struct de_cell {
 };
 
 // Cell connecting execute and memory stages
-struct em_cell {};
+struct em_cell {
+
+};
 
 // Cell connecting memory and writeback stages
-struct mw_cell {};
+struct mw_cell {
+
+};
 
 //--------------------------------------------------------------------------
 // Hart
@@ -41,8 +45,7 @@ private:
     Reg pc;
     Decoder  decoder;
 
-    bool is_stall = false;
-
+// Pipeline stages
     void fetch ();
     fd_cell fd;
     void decode ();
@@ -53,20 +56,24 @@ private:
     mw_cell mw;
     void write_back ();
 
+// Auxiliary functions for inserting bubbles
     friend void set_nop_fd_cell (Hart& hart);
     friend void set_nop_de_cell (Hart& hart);
 
 public:
+// Interaction with memory
     void save_in_memory (Segment& segment);
     void load_from_memory (uint64_t vaddr, void* load_ptr, int load_size);
-    void store_in_memory(uint64_t vaddr, uint64_t val, int store_size);
+    void store_in_memory (uint64_t vaddr, uint64_t val, int store_size);
     void memory_dump () { memory.dump (); }
     
+// Interaction with regfile
     inline void set_reg_val (uint8_t reg, uint64_t v) { regfile.set_reg_val (reg, v); }
     inline uint64_t get_reg_val (uint8_t reg) { return regfile.get_reg_val (reg); }
     inline void set_pc_val (uint64_t new_pc) { pc.set_val (new_pc); }
     inline uint64_t get_pc_val () { return pc.get_val (); }
 
+// Main pipeline cycle
     void run_pipeline ();
 
     Hart () {

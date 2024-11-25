@@ -93,26 +93,12 @@ enum class InstName {
     SUBW,
     SLLW,
     SRLW,
-    SRAW,
-
-    // RV32M Standard Extension
-    MUL,
-    MULH,
-    MULHSU,
-    MULHU,
-    DIV,
-    DIVU,
-    REM,
-    REMU,
-
-    // RV64M Standard Extension (in addition to RV32M)
-    MULW,
-    DIVW,
-    DIVUW,
-    REMW,
-    REMUW
+    SRAW
 };
 
+//--------------------------------------------------------------------------
+// Inst
+//--------------------------------------------------------------------------
 class Decoder;
 class Hart;
 class Inst_I;
@@ -136,6 +122,9 @@ public:
     virtual ~Inst() {};
 }; 
 
+//--------------------------------------------------------------------------
+// Inst_R
+//--------------------------------------------------------------------------
 class Inst_R final : public Inst {
     friend class Decoder;
 
@@ -150,8 +139,11 @@ public:
     inline uint8_t get_rs2 () { return rs2; }
     inline uint8_t get_rs1 () { return rs1; }
     inline uint8_t get_rd  () { return rd;  }
-}; 
+};
 
+//--------------------------------------------------------------------------
+// Inst_I
+//--------------------------------------------------------------------------
 class Inst_I final : public Inst {
     friend class Decoder;
     friend Inst_I* create_nop ();
@@ -168,6 +160,9 @@ public:
     inline uint8_t  get_rd  () { return rd;  }
 }; 
 
+//--------------------------------------------------------------------------
+// Inst_S
+//--------------------------------------------------------------------------
 class Inst_S final : public Inst {
     friend class Decoder;
 
@@ -181,8 +176,11 @@ public:
     inline uint32_t get_imm () { return imm; }
     inline uint8_t  get_rs2 () { return rs2; }
     inline uint8_t  get_rs1 () { return rs1; }
-}; 
+};
 
+//--------------------------------------------------------------------------
+// Inst_B
+//--------------------------------------------------------------------------
 class Inst_B final : public Inst {
     friend class Decoder;
 
@@ -198,6 +196,9 @@ public:
     inline uint8_t  get_rs1 () { return rs1; }  
 }; 
 
+//--------------------------------------------------------------------------
+// Inst_U
+//--------------------------------------------------------------------------
 class Inst_U final : public Inst {
     friend class Decoder;
 
@@ -208,8 +209,11 @@ private:
 public:
     inline uint32_t get_imm () { return imm; }
     inline uint8_t  get_rd  () { return rd;  }
-}; 
+};
 
+//--------------------------------------------------------------------------
+// Inst_J
+//--------------------------------------------------------------------------
 class Inst_J final : public Inst {
     friend class Decoder;
 

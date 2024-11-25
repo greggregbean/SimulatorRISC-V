@@ -347,11 +347,6 @@ InstType Decoder::recognize_inst (uint32_t inst) {
                             tmp_inst_R.execute_func = Executor::execute_SUB;
                             break;
 
-                        case 0b0000001:
-                            tmp_inst_R.name = InstName::MUL;
-                            tmp_inst_R.execute_func = Executor::execute_MUL;
-                            break;
-
                         default:
                             return InstType::NONE;
                     }
@@ -362,11 +357,6 @@ InstType Decoder::recognize_inst (uint32_t inst) {
                         case 0b0000000:
                             tmp_inst_R.name = InstName::SLL;
                             tmp_inst_R.execute_func = Executor::execute_SLL;
-                            break;
-                        
-                        case 0b0000001:
-                            tmp_inst_R.name = InstName::MULH;
-                            tmp_inst_R.execute_func = Executor::execute_MULH;
                             break;
                         
                         default:
@@ -381,11 +371,6 @@ InstType Decoder::recognize_inst (uint32_t inst) {
                             tmp_inst_R.execute_func = Executor::execute_SLT;
                             break;
                         
-                        case 0b0000001:
-                            tmp_inst_R.name = InstName::MULHSU;
-                            tmp_inst_R.execute_func = Executor::execute_MULHSU;
-                            break;
-                        
                         default:
                             return InstType::NONE;
                     }
@@ -398,11 +383,6 @@ InstType Decoder::recognize_inst (uint32_t inst) {
                             tmp_inst_R.execute_func = Executor::execute_SLTU;
                             break;
                         
-                        case 0b0000001:
-                            tmp_inst_R.name = InstName::MULHU;
-                            tmp_inst_R.execute_func = Executor::execute_MULHU;
-                            break;
-                        
                         default:
                             return InstType::NONE;
                     }
@@ -413,11 +393,6 @@ InstType Decoder::recognize_inst (uint32_t inst) {
                         case 0b0000000:
                             tmp_inst_R.name = InstName::XOR;
                             tmp_inst_R.execute_func = Executor::execute_XOR;
-                            break;
-                        
-                        case 0b0000001:
-                            tmp_inst_R.name = InstName::DIV;
-                            tmp_inst_R.execute_func = Executor::execute_DIV;
                             break;
                         
                         default:
@@ -437,11 +412,6 @@ InstType Decoder::recognize_inst (uint32_t inst) {
                             tmp_inst_R.execute_func = Executor::execute_SRA;
                             break;
 
-                        case 0b0000001:
-                            tmp_inst_R.name = InstName::DIVU;
-                            tmp_inst_R.execute_func = Executor::execute_DIVU;
-                            break;
-
                         default:
                             return InstType::NONE;
                     }
@@ -453,12 +423,7 @@ InstType Decoder::recognize_inst (uint32_t inst) {
                             tmp_inst_R.name = InstName::OR;
                             tmp_inst_R.execute_func = Executor::execute_OR;
                             break;
-                        
-                        case 0b0000001:
-                            tmp_inst_R.name = InstName::REM;
-                            tmp_inst_R.execute_func = Executor::execute_REM;
-                            break;
-                        
+
                         default:
                             return InstType::NONE;
                     }
@@ -469,11 +434,6 @@ InstType Decoder::recognize_inst (uint32_t inst) {
                         case 0b0000000:
                             tmp_inst_R.name = InstName::AND;
                             tmp_inst_R.execute_func = Executor::execute_AND;
-                            break;
-                        
-                        case 0b0000001:
-                            tmp_inst_R.name = InstName::REMU;
-                            tmp_inst_R.execute_func = Executor::execute_REMU;
                             break;
                         
                         default:
@@ -574,11 +534,6 @@ InstType Decoder::recognize_inst (uint32_t inst) {
                             tmp_inst_R.execute_func = Executor::execute_SUBW;
                             break;
                         
-                        case 0b0000001:
-                            tmp_inst_R.name = InstName::MULW;
-                            tmp_inst_R.execute_func = Executor::execute_MULW;
-                            break;
-                        
                         default:
                             return InstType::NONE;
                     }
@@ -602,36 +557,10 @@ InstType Decoder::recognize_inst (uint32_t inst) {
                             tmp_inst_R.name = InstName::SRAW;
                             tmp_inst_R.execute_func = Executor::execute_SRAW;
                             break;
-                        
-                        case 0b0000001:
-                            tmp_inst_R.name = InstName::DIVUW;
-                            tmp_inst_R.execute_func = Executor::execute_DIVUW;
-                            break;
-                        
+
                         default:
                             return InstType::NONE;
                     }
-                    break;
-                
-                case 0b100:
-                    if (funct7 != 0b0000001)
-                        return InstType::NONE;
-                    tmp_inst_R.name = InstName::DIVW;
-                    tmp_inst_R.execute_func = Executor::execute_DIVW;
-                    break;
-                
-                case 0b110:
-                    if (funct7 != 0b0000001)
-                        return InstType::NONE;
-                    tmp_inst_R.name = InstName::REMW;
-                    tmp_inst_R.execute_func = Executor::execute_REMW;
-                    break;
-                
-                case 0b111:
-                    if (funct7 != 0b0000001)
-                        return InstType::NONE;
-                    tmp_inst_R.name = InstName::REMUW;
-                    tmp_inst_R.execute_func = Executor::execute_REMUW;
                     break;
                 
                 default:

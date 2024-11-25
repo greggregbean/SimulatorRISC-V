@@ -4,6 +4,9 @@
 
 #include "utils/constants.hpp"
 
+//--------------------------------------------------------------------------
+// Executor
+//--------------------------------------------------------------------------
 class Hart;
 
 namespace Executor 
@@ -65,21 +68,4 @@ namespace Executor
     void execute_SLLW (Inst* inst, Hart& hart);
     void execute_SRLW (Inst* inst, Hart& hart);
     void execute_SRAW (Inst* inst, Hart& hart);
-
-// RV32M Standard Extension
-    void execute_MUL (Inst* inst, Hart& hart);
-    void execute_MULH (Inst* inst, Hart& hart);
-    void execute_MULHSU (Inst* inst, Hart& hart);
-    void execute_MULHU (Inst* inst, Hart& hart);
-    void execute_DIV (Inst* inst, Hart& hart);
-    void execute_DIVU (Inst* inst, Hart& hart);
-    void execute_REM (Inst* inst, Hart& hart);
-    void execute_REMU (Inst* inst, Hart& hart);
-
-// RV64M Standard Extension (in addition to RV32M)
-    void execute_MULW (Inst* inst, Hart& hart);
-    void execute_DIVW (Inst* inst, Hart& hart);
-    void execute_DIVUW (Inst* inst, Hart& hart);
-    void execute_REMW (Inst* inst, Hart& hart);
-    void execute_REMUW (Inst* inst, Hart& hart);
 };
