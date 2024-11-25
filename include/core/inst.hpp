@@ -59,9 +59,9 @@ enum class InstName {
     XORI,
     ORI,
     ANDI,
-    //SLLI,  <- in RV64I Base Instruction Set
-    //SRLI,  <- in RV64I Base Instruction Set
-    //SRAI,  <- in RV64I Base Instruction Set
+    // SLLI,  <- in RV64I Base Instruction Set
+    // SRLI,  <- in RV64I Base Instruction Set
+    // SRAI,  <- in RV64I Base Instruction Set
     ADD,
     SUB,
     SLL,
@@ -93,104 +93,135 @@ enum class InstName {
     SUBW,
     SLLW,
     SRLW,
-    SRAW,
-
-    // RV32/RV64 Zifencei Standard Extension
-    FENCE_I,
-
-    // RV32/RV64 Zicsr Standard Extension
-    CSRRW,
-    CSRRS,
-    CSRRC,
-    CSRRWI,
-    CSRRSI,
-    CSRRCI,
-
-    // RV32M Standard Extension
-    MUL,
-    MULH,
-    MULHSU,
-    MULHU,
-    DIV,
-    DIVU,
-    REM,
-    REMU,
-
-    // RV64M Standard Extension (in addition to RV32M)
-    MULW,
-    DIVW,
-    DIVUW,
-    REMW,
-    REMUW
+    SRAW
 };
 
-class Inst {
-private:
-    friend class Decoder;
+//--------------------------------------------------------------------------
+// Inst
+//--------------------------------------------------------------------------
+class Decoder;
+class Hart;
+class Inst_I;
 
+class Inst {
+    friend class Decoder;
+    friend class Hart;
+    friend Inst_I* create_nop ();
+
+private:
     InstType type = InstType::NONE;
     InstName name = InstName::NONE;
     Opcode opcode = Opcode::NONE;
+    uint64_t addr = 0;
     
-    void (*executor) (Inst*) = nullptr;
+    void (*execute_func) (Inst*, Hart&) = nullptr;
 
 public:
+    inline uint64_t get_addr () { return addr; }
+
     virtual ~Inst() {};
 }; 
 
+//--------------------------------------------------------------------------
+// Inst_R
+//--------------------------------------------------------------------------
 class Inst_R final : public Inst {
-private:
     friend class Decoder;
 
+private:
     uint8_t funct7;
     uint8_t rs2;
     uint8_t rs1;
     uint8_t funct3;
     uint8_t rd;
-}; 
 
+public:
+    inline uint8_t get_rs2 () { return rs2; }
+    inline uint8_t get_rs1 () { return rs1; }
+    inline uint8_t get_rd  () { return rd;  }
+};
+
+//--------------------------------------------------------------------------
+// Inst_I
+//--------------------------------------------------------------------------
 class Inst_I final : public Inst {
-private:
     friend class Decoder;
+    friend Inst_I* create_nop ();
 
+private:
     uint32_t imm;
     uint8_t  rs1;
     uint8_t  funct3;
     uint8_t  rd;
+
+public:
+    inline uint32_t get_imm () { return imm; }
+    inline uint8_t  get_rs1 () { return rs1; }
+    inline uint8_t  get_rd  () { return rd;  }
 }; 
 
+//--------------------------------------------------------------------------
+// Inst_S
+//--------------------------------------------------------------------------
 class Inst_S final : public Inst {
-private:
     friend class Decoder;
 
+private:
     uint32_t imm;
     uint8_t  rs2;
     uint8_t  rs1;
     uint8_t  funct3;
-}; 
 
+public:
+    inline uint32_t get_imm () { return imm; }
+    inline uint8_t  get_rs2 () { return rs2; }
+    inline uint8_t  get_rs1 () { return rs1; }
+};
+
+//--------------------------------------------------------------------------
+// Inst_B
+//--------------------------------------------------------------------------
 class Inst_B final : public Inst {
-private:
     friend class Decoder;
 
+private:
     uint32_t imm;
     uint8_t  rs2;
     uint8_t  rs1;
     uint8_t  funct3;
+
+public:
+    inline uint32_t get_imm () { return imm; }
+    inline uint8_t  get_rs2 () { return rs2; }
+    inline uint8_t  get_rs1 () { return rs1; }  
 }; 
 
+//--------------------------------------------------------------------------
+// Inst_U
+//--------------------------------------------------------------------------
 class Inst_U final : public Inst {
-private:
     friend class Decoder;
 
+private:
     uint32_t imm;
     uint8_t  rd;      
-}; 
 
+public:
+    inline uint32_t get_imm () { return imm; }
+    inline uint8_t  get_rd  () { return rd;  }
+};
+
+//--------------------------------------------------------------------------
+// Inst_J
+//--------------------------------------------------------------------------
 class Inst_J final : public Inst {
-private:
     friend class Decoder;
 
+private:
     uint32_t imm;
     uint8_t  rd;
+
+public:
+    inline uint32_t get_imm () { return imm; }
+    inline uint8_t  get_rd  () { return rd;  }
 }; 
