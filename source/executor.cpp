@@ -23,25 +23,28 @@ inline uint64_t sext (uint64_t val, uint8_t size) {
 // The NOP instruction does not change any architecturally 
 // visible state, except for advancing the pc. NOP is encoded 
 // as ADDI x0, x0, 0.
-void set_nop_fd_cell (Hart& hart) {
-    hart.fd.inst = 0x00000013;
-} 
-
-void set_nop_de_cell (Hart& hart) {
+Inst_I* create_nop () {
     Inst_I* nop = new Inst_I;
 
     nop->type = InstType::I;
     nop->name = InstName::ADDI;
     nop->opcode = Opcode::OP_IMM;
-    nop->addr = hart.de.inst->addr;
     nop->execute_func = Executor::execute_ADDI;
     nop->imm = 0;
     nop->rs1 = 0;
     nop->rd = 0;
 
-    hart.de.inst->~Inst();
-    hart.de.inst = nop;
+    return nop;
+}
+
+inline void set_nop_fd_cell (Hart& hart) {
+    hart.fd.inst = 0x00000013;
 } 
+
+inline void set_nop_de_cell (Hart& hart) {
+    hart.de.inst->~Inst();
+    hart.de.inst = create_nop();
+}
 
 //--------------------------------------------------------------------------
 // RV32I Base Instruction Set
@@ -512,24 +515,39 @@ void Executor::execute_AND (Inst* inst, Hart& hart) {
     hart.set_reg_val (inst_R->get_rd(), rs1_val & rs2_val);
 }
 
+// RV32I contains 40 unique instructions, though a simple 
+// implementation might cover the ECALL/EBREAK instructions 
+// with a single SYSTEM hardware instruction that always traps 
+// and might be able to implement the FENCE instruction as a 
+// NOP, reducing base instruction count to 38 total.
 void Executor::execute_FENCE (Inst* inst, Hart& hart) {
-
+    // NOP
+    return;
 }
 
 void Executor::execute_FENCE_TSO (Inst* inst, Hart& hart) {
-
+    // NOP
+    return;
 }
 
+// We assume SYSTEM instructions just wait for something 
+// from keyboard.
 void Executor::execute_PAUSE (Inst* inst, Hart& hart) {
-
+    int tmp;
+    std::cin >> tmp;
+    return;
 }
 
 void Executor::execute_ECALL (Inst* inst, Hart& hart) {
-
+    int tmp;
+    std::cin >> tmp;
+    return;
 }
 
 void Executor::execute_EBREAK (Inst* inst, Hart& hart) {
-
+    int tmp;
+    std::cin >> tmp;
+    return;
 }
 
 //--------------------------------------------------------------------------
@@ -701,40 +719,6 @@ void Executor::execute_SRAW (Inst* inst, Hart& hart) {
     // for SRA explicitly. 
     uint64_t rd_val = rs1_val >> shamt;
     hart.set_reg_val (inst_R->get_rd(), sext (rd_val, 32 - shamt));
-}
-
-//--------------------------------------------------------------------------
-// RV32/RV64 Zifencei Standard Extension
-//--------------------------------------------------------------------------
-void Executor::execute_FENCE_I (Inst* inst, Hart& hart) {
-
-}
-
-//--------------------------------------------------------------------------
-// RV32/RV64 Zicsr Standard Extension
-//--------------------------------------------------------------------------
-void Executor::execute_CSRRW (Inst* inst, Hart& hart) {
-
-}
-
-void Executor::execute_CSRRS (Inst* inst, Hart& hart) {
-
-}
-
-void Executor::execute_CSRRC (Inst* inst, Hart& hart) {
-
-}
-
-void Executor::execute_CSRRWI (Inst* inst, Hart& hart) {
-
-}
-
-void Executor::execute_CSRRSI (Inst* inst, Hart& hart) {
-
-}
-
-void Executor::execute_CSRRCI (Inst* inst, Hart& hart) {
-
 }
 
 //--------------------------------------------------------------------------

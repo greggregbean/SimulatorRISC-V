@@ -487,83 +487,40 @@ InstType Decoder::recognize_inst (uint32_t inst) {
             return InstType::R;
 
         case Opcode::MISC_MEM:
-            switch (funct3) {
-                case 0b000:
-                    switch (inst) {
-                        case 0b10000011001100000000000000001111:
-                            tmp_inst_I.name = InstName::FENCE_TSO;
-                            tmp_inst_I.execute_func = Executor::execute_FENCE_TSO;
-                            break;
-                        
-                        case 0b00000001000000000000000000001111:
-                            tmp_inst_I.name = InstName::PAUSE;
-                            tmp_inst_I.execute_func = Executor::execute_PAUSE;  
-                            break;        
+            if (funct3 != 0b000)
+                return InstType::NONE;
 
-                        default:
-                            tmp_inst_I.name = InstName::FENCE;
-                            tmp_inst_I.execute_func = Executor::execute_FENCE;
-                    }
+            switch (inst) {
+                case 0b10000011001100000000000000001111:
+                    tmp_inst_I.name = InstName::FENCE_TSO;
+                    tmp_inst_I.execute_func = Executor::execute_FENCE_TSO;
                     break;
                 
-                case 0b001:
-                    tmp_inst_I.name = InstName::FENCE_I;
-                    tmp_inst_I.execute_func = Executor::execute_FENCE_I;
-                    break;
-                
+                case 0b00000001000000000000000000001111:
+                    tmp_inst_I.name = InstName::PAUSE;
+                    tmp_inst_I.execute_func = Executor::execute_PAUSE;  
+                    break;        
+
                 default:
-                    return InstType::NONE;
+                    tmp_inst_I.name = InstName::FENCE;
+                    tmp_inst_I.execute_func = Executor::execute_FENCE;
             }
             return InstType::I;
 
         case Opcode::SYSTEM:
-            switch (funct3) {
-                case 0b000:
-                    switch (inst) {
-                        case 0b00000000000000000000000001110011:
-                            tmp_inst_I.name = InstName::ECALL;
-                            tmp_inst_I.execute_func = Executor::execute_ECALL;
-                            break;
-                        
-                        case 0b00000000000100000000000001110011:
-                            tmp_inst_I.name = InstName::EBREAK;
-                            tmp_inst_I.execute_func = Executor::execute_EBREAK;  
-                            break;     
-
-                        default:
-                            return InstType::NONE;
-                    }
+            switch (inst) {
+                case 0b00000000000000000000000001110011:
+                    tmp_inst_I.name = InstName::ECALL;
+                    tmp_inst_I.execute_func = Executor::execute_ECALL;
                     break;
+                
+                case 0b00000000000100000000000001110011:
+                    tmp_inst_I.name = InstName::EBREAK;
+                    tmp_inst_I.execute_func = Executor::execute_EBREAK;  
+                    break;     
 
-                case 0b001:
-                    tmp_inst_I.name = InstName::CSRRW;
-                    tmp_inst_I.execute_func = Executor::execute_CSRRW;
-                    break;
-
-                case 0b010:
-                    tmp_inst_I.name = InstName::CSRRS;
-                    tmp_inst_I.execute_func = Executor::execute_CSRRS;
-                    break;
-
-                case 0b011:
-                    tmp_inst_I.name = InstName::CSRRC;
-                    tmp_inst_I.execute_func = Executor::execute_CSRRC;
-                    break;
-
-                case 0b101:
-                    tmp_inst_I.name = InstName::CSRRWI;
-                    tmp_inst_I.execute_func = Executor::execute_CSRRWI;
-                    break;
-
-                case 0b110:
-                    tmp_inst_I.name = InstName::CSRRSI;
-                    tmp_inst_I.execute_func = Executor::execute_CSRRSI;
-                    break;
-
-                case 0b111:
-                    tmp_inst_I.name = InstName::CSRRCI;
-                    tmp_inst_I.execute_func = Executor::execute_CSRRCI;
-                    break;
+                default:
+                    return InstType::NONE;
             }
             return InstType::I;
 

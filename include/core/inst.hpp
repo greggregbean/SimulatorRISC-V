@@ -95,17 +95,6 @@ enum class InstName {
     SRLW,
     SRAW,
 
-    // RV32/RV64 Zifencei Standard Extension
-    FENCE_I,
-
-    // RV32/RV64 Zicsr Standard Extension
-    CSRRW,
-    CSRRS,
-    CSRRC,
-    CSRRWI,
-    CSRRSI,
-    CSRRCI,
-
     // RV32M Standard Extension
     MUL,
     MULH,
@@ -126,11 +115,12 @@ enum class InstName {
 
 class Decoder;
 class Hart;
+class Inst_I;
 
 class Inst {
     friend class Decoder;
     friend class Hart;
-    friend void set_nop_de_cell (Hart& hart);
+    friend Inst_I* create_nop ();
 
 private:
     InstType type = InstType::NONE;
@@ -164,7 +154,7 @@ public:
 
 class Inst_I final : public Inst {
     friend class Decoder;
-    friend void set_nop_de_cell (Hart& hart);
+    friend Inst_I* create_nop ();
 
 private:
     uint32_t imm;

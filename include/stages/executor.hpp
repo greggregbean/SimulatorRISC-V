@@ -66,17 +66,6 @@ namespace Executor
     void execute_SRLW (Inst* inst, Hart& hart);
     void execute_SRAW (Inst* inst, Hart& hart);
 
-// RV32/RV64 Zifencei Standard Extension
-    void execute_FENCE_I (Inst* inst, Hart& hart);
-
-// RV32/RV64 Zicsr Standard Extension
-    void execute_CSRRW (Inst* inst, Hart& hart);
-    void execute_CSRRS (Inst* inst, Hart& hart);
-    void execute_CSRRC (Inst* inst, Hart& hart);
-    void execute_CSRRWI (Inst* inst, Hart& hart);
-    void execute_CSRRSI (Inst* inst, Hart& hart);
-    void execute_CSRRCI (Inst* inst, Hart& hart);
-
 // RV32M Standard Extension
     void execute_MUL (Inst* inst, Hart& hart);
     void execute_MULH (Inst* inst, Hart& hart);
