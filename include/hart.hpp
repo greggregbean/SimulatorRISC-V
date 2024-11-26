@@ -40,6 +40,8 @@ struct mw_cell {
 //--------------------------------------------------------------------------
 class Hart final {
 private:
+    uint64_t start_addr;
+
     Memory memory;
     Regfile regfile;
     Reg pc;
@@ -62,7 +64,8 @@ private:
 
 public:
 // Interaction with memory
-    void save_in_memory (Segment& segment);
+    void map_seg_to_VAS (Segment& segment);
+    void set_start_addr (uint64_t vaddr) { start_addr = vaddr; }
     void load_from_memory (uint64_t vaddr, void* load_ptr, int load_size);
     void store_in_memory (uint64_t vaddr, uint64_t val, int store_size);
     void memory_dump () { memory.dump (); }
@@ -76,8 +79,5 @@ public:
 // Main pipeline cycle
     void run_pipeline ();
 
-    Hart () {
-        pc.set_val (START_ADDRESS);
-        regfile.regs[0].set_val (0);
-    }
+    Hart () { regfile.regs[0].set_val (0); }
 };
