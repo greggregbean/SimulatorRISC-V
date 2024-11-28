@@ -94,11 +94,9 @@ void Executor::execute_JAL (Inst* inst, Hart& hart) {
 void Executor::execute_JALR (Inst* inst, Hart& hart) {
     Inst_I* inst_I = static_cast<Inst_I*> (inst);
 
-    uint64_t imm_val = sext (inst_I->get_imm(), 12);
+    uint64_t offset = sext (inst_I->get_imm(), 12);
     uint64_t rs1_val = hart.get_reg_val (inst_I->get_rs1());
-
-    uint64_t offset = (rs1_val + imm_val) & ~1;
-    uint64_t target_addr = inst_I->get_addr() + offset;
+    uint64_t target_addr = (rs1_val + offset) & ~1;
 
     // TODO: instruction-address-misaligned exception
     if ((target_addr % WORD_SIZE) != 0)

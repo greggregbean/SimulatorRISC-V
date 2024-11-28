@@ -79,5 +79,15 @@ public:
 // Main pipeline cycle
     void run_pipeline ();
 
-    Hart () { regfile.regs[0].set_val (0); }
+    void dump () {
+        std::cout << "----------------------- Hart -------------------" << std::endl;
+        std::cout << "pc = " << std::setfill ('0') << "0x" << std::setw(16) 
+                  << std::hex << pc.get_val() << std::endl;
+        std::cout << "----------------------- Regfile ----------------" << std::endl;
+        regfile.dump();
+        std::cout << "----------------------- Memory -----------------" << std::endl;
+        memory.dump();
+        std::cout << "------------------------------------------------" << std::endl;
+        std::cout << std::endl;
+    }
 };

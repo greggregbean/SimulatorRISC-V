@@ -77,7 +77,7 @@ void Hart::execute () {
 
     cur_de_inst->execute_func (cur_de_inst, *this);
 
-    de.inst->~Inst();
+    cur_de_inst->~Inst();
 }
 
 void Hart::memory_access () {
@@ -95,8 +95,10 @@ void Hart::run_pipeline () {
     while (true) {
         set_reg_val (0, 0);
 
+        dump();
+
         fetch();
         decode();
-        //execute();
+        execute();
     }
 }
