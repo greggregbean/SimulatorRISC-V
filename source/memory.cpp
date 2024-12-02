@@ -11,8 +11,30 @@ void Memory::mem_store (uint64_t offset, void* ptr, int ptr_size) {
     std::memcpy (mem + offset, ptr, ptr_size);
 }
 
-void Memory::dump() {
+void Memory::dump () {
+    int zero_counter = 0;
+
     for (uint64_t i = 0; i < curr_size; ++i) {
+        if (zero_counter == 32) {
+            if (std::to_integer<int>(mem[i]) != 0) {
+                std::cout << std::endl << "..." << std::endl;
+                zero_counter = 0;
+            }
+            else
+                continue;
+        }
+
+        std::cout << std::hex << std::setw (2) << std::setfill('0')
+                  << static_cast<int>(mem[i]) << " ";
+
+        if (std::to_integer<int>(mem[i]) == 0)
+            zero_counter++;
+    }
+    std::cout << std::dec << std::endl;
+}
+
+void Memory::dump_stack (uint64_t sp) {
+    for (uint64_t i = sp; i < mem_size; ++i) {
         std::cout << std::hex << std::setw (2) << std::setfill('0')
                   << static_cast<int>(mem[i]) << " ";
     }

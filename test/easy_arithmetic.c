@@ -1,14 +1,12 @@
 int main()
 {
-	int s = 0;
-	int l = 5;
-	int kil;
-	s = s + l;
-	l = s*l;
-	s = l/3+ s;
-	kil = l << 2;
-	kil = kil + s % 7 + 5|l;
-	s = s+ l & kil;
-	kil = kil >> 1;
-	l = l^kil;
+	int a = 5;
+	int b = 2;
+	int c = 3;
+	c = a + b;
+	a = b << c;
+	b = c | 7;
+	c = 25 & b;
+	a = c >> 2;
+	b = c ^ a;
 }

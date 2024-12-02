@@ -20,7 +20,7 @@ You need to configure supported arch and abi in compiler build:
 
 ## Compile tests
 ````
-riscv64-unknown-linux-gnu-gcc -march=rv64i -mabi=lp64 -c test.c -o test.elf
+riscv64-unknown-linux-gnu-gcc -nostdlib -march=rv64i -mabi=lp64 --static -Wl,-emain -c test.c -o test.elf
 ````
 
 

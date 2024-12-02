@@ -79,6 +79,11 @@ public:
 // Main pipeline cycle
     void run_pipeline ();
 
+    Hart () {
+        // Setting stack pointer as the end of VAS
+        regfile.set_reg_val (2, DEFAULT_MEM_SIZE);
+    }
+
     void dump () {
         std::cout << "----------------------- Hart -------------------" << std::endl;
         std::cout << "pc = " << std::setfill ('0') << "0x" << std::setw(16) 
@@ -87,6 +92,8 @@ public:
         regfile.dump();
         std::cout << "----------------------- Memory -----------------" << std::endl;
         memory.dump();
+        std::cout << "----------------------- Stack ------------------" << std::endl;
+        memory.dump_stack (get_reg_val(2));
         std::cout << "------------------------------------------------" << std::endl;
         std::cout << std::endl;
     }

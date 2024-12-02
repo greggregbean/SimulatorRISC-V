@@ -5,6 +5,7 @@
 #include <cassert>
 #include <cstring>
 #include <iomanip>
+#include <cstddef>
 
 #include "utils/constants.hpp"
 
@@ -22,7 +23,11 @@ public:
         delete [] mem;
     }
 
+    inline uint64_t get_mem_size () { return mem_size; }
+    inline uint64_t get_curr_size () { return curr_size; }
+
     void mem_store (uint64_t offset, void* ptr, int ptr_size);
     void mem_load (uint64_t offset, void* ptr, int ptr_size);
     void dump();
+    void dump_stack (uint64_t sp);
 };
