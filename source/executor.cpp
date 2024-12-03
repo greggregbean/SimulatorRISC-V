@@ -571,7 +571,7 @@ void Executor::execute_LD (Inst* inst, Hart& hart) {
     uint64_t rs1_val = hart.get_reg_val (inst_I->get_rs1());
 
     uint64_t effective_addr = rs1_val + imm_val;
-    uint32_t val;
+    uint64_t val;
     hart.load_from_memory (effective_addr, &val, DWORD_SIZE);
 
     hart.set_reg_val (inst_I->get_rd(), val);

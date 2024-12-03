@@ -41,6 +41,7 @@ void ELFLoader::load (Hart& hart) {
 
             if (first_load_segment_flag) {
                 hart.set_start_addr (seg.get_vaddr());
+                hart.set_sp ();
                 first_load_segment_flag = false;
             }
             hart.map_seg_to_VAS (seg);

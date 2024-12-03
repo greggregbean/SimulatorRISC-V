@@ -95,7 +95,7 @@ void Hart::run_pipeline () {
     while (true) {
         set_reg_val (0, 0);
 
-        dump();
+        //dump();
 
         fetch();
         decode();

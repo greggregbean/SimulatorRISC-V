@@ -65,7 +65,8 @@ private:
 public:
 // Interaction with memory
     void map_seg_to_VAS (Segment& segment);
-    void set_start_addr (uint64_t vaddr) { start_addr = vaddr; }
+    inline void set_start_addr (uint64_t vaddr) { start_addr = vaddr; }
+    inline void set_sp () { regfile.set_reg_val (2, DEFAULT_MEM_SIZE + start_addr); }
     void load_from_memory (uint64_t vaddr, void* load_ptr, int load_size);
     void store_in_memory (uint64_t vaddr, uint64_t val, int store_size);
     void memory_dump () { memory.dump (); }
@@ -79,11 +80,6 @@ public:
 // Main pipeline cycle
     void run_pipeline ();
 
-    Hart () {
-        // Setting stack pointer as the end of VAS
-        regfile.set_reg_val (2, DEFAULT_MEM_SIZE);
-    }
-
     void dump () {
         std::cout << "----------------------- Hart -------------------" << std::endl;
         std::cout << "pc = " << std::setfill ('0') << "0x" << std::setw(16) 
@@ -93,7 +89,7 @@ public:
         std::cout << "----------------------- Memory -----------------" << std::endl;
         memory.dump();
         std::cout << "----------------------- Stack ------------------" << std::endl;
-        memory.dump_stack (get_reg_val(2));
+        memory.dump_stack (get_reg_val(2) - start_addr);
         std::cout << "------------------------------------------------" << std::endl;
         std::cout << std::endl;
     }
