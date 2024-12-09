@@ -16,23 +16,13 @@
 //--------------------------------------------------------------------------
 // Cell connecting fetch and decode stages
 struct fd_cell {
-    uint32_t inst;
-    uint64_t addr;
+    uint32_t inst = 0;
+    uint64_t addr = 0;
 };
 
 // Cell connecting decode and execute stages
 struct de_cell {
-    Inst* inst;
-};
-
-// Cell connecting execute and memory stages
-struct em_cell {
-
-};
-
-// Cell connecting memory and writeback stages
-struct mw_cell {
-
+    Inst* inst = nullptr;
 };
 
 //--------------------------------------------------------------------------
@@ -53,10 +43,6 @@ private:
     void decode ();
     de_cell de;
     void execute ();
-    em_cell em;
-    void memory_access ();
-    mw_cell mw;
-    void write_back ();
 
 // Auxiliary functions for inserting bubbles
     friend void set_nop_fd_cell (Hart& hart);
@@ -80,17 +66,5 @@ public:
 // Main pipeline cycle
     void run_pipeline ();
 
-    void dump () {
-        std::cout << "----------------------- Hart -------------------" << std::endl;
-        std::cout << "pc = " << std::setfill ('0') << "0x" << std::setw(16) 
-                  << std::hex << pc.get_val() << std::endl;
-        std::cout << "----------------------- Regfile ----------------" << std::endl;
-        regfile.dump();
-        std::cout << "----------------------- Memory -----------------" << std::endl;
-        memory.dump();
-        std::cout << "----------------------- Stack ------------------" << std::endl;
-        memory.dump_stack (get_reg_val(2) - start_addr);
-        std::cout << "------------------------------------------------" << std::endl;
-        std::cout << std::endl;
-    }
+    void dump ();
 };

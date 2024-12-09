@@ -66,6 +66,9 @@ void Hart::fetch () {
 void Hart::decode () {
     uint32_t cur_fd_inst = fd.inst;
 
+    if (!cur_fd_inst)
+        return;
+
     Inst* cur_de_inst = decoder.decode_inst (cur_fd_inst);
     cur_de_inst->addr = fd.addr;
 
@@ -75,17 +78,12 @@ void Hart::decode () {
 void Hart::execute () {
     Inst* cur_de_inst = de.inst;
 
+    if (!cur_de_inst)
+        return;
+
     cur_de_inst->execute_func (cur_de_inst, *this);
 
     cur_de_inst->~Inst();
-}
-
-void Hart::memory_access () {
-
-}
-
-void Hart::write_back () {
-
 }
 
 //--------------------------------------------------------------------------
@@ -95,10 +93,24 @@ void Hart::run_pipeline () {
     while (true) {
         set_reg_val (0, 0);
 
-        //dump();
-
-        fetch();
-        decode();
+        dump();
+        
         execute();
+        decode();
+        fetch();
     }
+}
+
+void Hart::dump () {
+    std::cout << "----------------------- Hart -------------------" << std::endl;
+    std::cout << "pc = " << std::setfill ('0') << "\033[32m0x" << std::setw(16) 
+              << std::hex << pc.get_val() << "\033[0m" << std::endl;
+    std::cout << "----------------------- Regfile ----------------" << std::endl;
+    regfile.dump();
+    std::cout << "----------------------- Memory -----------------" << std::endl;
+    memory.dump();
+    std::cout << "----------------------- Stack ------------------" << std::endl;
+    memory.dump_stack (get_reg_val(2) - start_addr);
+    std::cout << "------------------------------------------------" << std::endl;
+    std::cout << std::endl;
 }

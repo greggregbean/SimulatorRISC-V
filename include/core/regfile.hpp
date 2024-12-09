@@ -31,9 +31,20 @@ public:
 
     void dump () {
         for (int i = 0; i < 32; i++) {
+            uint64_t val = get_reg_val (i);
+
             std::cout << std::dec << "x_" << std::setfill ('0') << std::setw(2) << i
-                      << " [" << std::setw(20) << get_reg_val (i) << "] " << "(" << "0x"  
-                      << std::setw(16) << std::hex << get_reg_val (i) << ")" << std::endl;
+                      << " [";
+
+            if (val != 0)
+                std::cout << "\033[32m";
+
+            std::cout << std::setw(20) << val << "\033[0m] " << "(";
+
+            if (val != 0)
+                std::cout << "\033[32m";
+
+            std::cout << "0x" << std::setw(16) << std::hex << val << "\033[0m)" << std::endl;
         }
     }
 };

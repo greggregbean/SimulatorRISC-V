@@ -20,13 +20,13 @@ You need to configure supported arch and abi in compiler build:
 
 ## Compile tests
 ````
-riscv64-unknown-linux-gnu-gcc -nostdlib -march=rv64i -mabi=lp64 --static -Wl,-emain -c test.c -o test.elf
+riscv64-unknown-linux-gnu-gcc -nostdlib -march=rv64i -mabi=lp64 --static -Wl,-emain test.c
 ````
 
 
 ## Objdump tests
 ````
-riscv64-unknown-linux-gnu-objdump -d test.elf > test.dump
+riscv64-unknown-linux-gnu-objdump -d a.out > test.dump
 ````
 
 ## Run
