@@ -30,7 +30,7 @@ struct de_cell {
 //--------------------------------------------------------------------------
 class Hart final {
 private:
-    bool stop;
+    bool stop = false;
 
     uint64_t start_addr;
 
@@ -44,7 +44,7 @@ private:
     fd_cell fd;
     void decode ();
     de_cell de;
-    void execute ();
+    void execute (bool trace);
 
 // Auxiliary functions for inserting bubbles
     friend void set_nop_fd_cell (Hart& hart);
@@ -69,7 +69,7 @@ public:
     inline uint64_t get_pc_val () { return pc.get_val (); }
 
 // Main pipeline cycle
-    void run_pipeline ();
+    void run_pipeline (bool trace);
 
     void dump ();
 };

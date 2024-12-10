@@ -75,11 +75,17 @@ void Hart::decode () {
     de.inst = cur_de_inst;
 }
 
-void Hart::execute () {
+void Hart::execute (bool trace) {
     Inst* cur_de_inst = de.inst;
 
     if (!cur_de_inst)
         return;
+    
+    // Dump regfile eachtime we enter into or return out of function
+    if (trace && (cur_de_inst->name == InstName::JALR)) {
+        regfile.spike_type_dump();
+        std::cout << std::endl;
+    }
 
     cur_de_inst->execute_func (cur_de_inst, *this);
 
@@ -89,11 +95,11 @@ void Hart::execute () {
 //--------------------------------------------------------------------------
 // Main pipeline cycle
 //--------------------------------------------------------------------------
-void Hart::run_pipeline () {
+void Hart::run_pipeline (bool trace) {
     while (true) {
         set_reg_val (0, 0);
         
-        execute();
+        execute (trace);
         if (stop) break;
         decode();
         fetch();

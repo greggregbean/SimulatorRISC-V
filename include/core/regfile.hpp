@@ -4,6 +4,18 @@
 #include <iomanip>
 #include <array>
 #include <cstdint>
+#include <unordered_map>
+
+const std::unordered_map<int, std::string> reg_names = {
+    {0,  "zero"}, {1,  "ra"}, {2,  "sp" }, {3,  "gp" },
+    {4,  "tp"  }, {5,  "t0"}, {6,  "t1" }, {7,  "t2" },
+    {8,  "s0"  }, {9,  "s1"}, {10, "a0" }, {11, "a1" },
+    {12, "a2"  }, {13, "a3"}, {14, "a4" }, {15, "a5" },
+    {16, "a6"  }, {17, "a7"}, {18, "s2" }, {19, "s3" },
+    {20, "s4"  }, {21, "s5"}, {22, "s6" }, {23, "s7" },
+    {24, "s8"  }, {25, "s9"}, {26, "s10"}, {27, "s11"},
+    {28, "t3"  }, {29, "t4"}, {30, "t5" }, {31, "t6" }
+};
 
 //--------------------------------------------------------------------------
 // Reg
@@ -45,6 +57,19 @@ public:
                 std::cout << "\033[32m";
 
             std::cout << "0x" << std::setw(16) << std::hex << val << "\033[0m)" << std::endl;
+        }
+    }
+
+    void spike_type_dump () {
+        for (int i = 0; i < 32; i += 4) {
+            for (int j = 0; j < 4; j++) {
+                uint64_t val = get_reg_val (i+j);
+
+                std::cout << std::setw(4) << reg_names.at(i+j) << ": 0x" 
+                          << std::setw(16) << std::setfill ('0') << std::hex 
+                          << val << std::setfill (' ');
+            }
+            std::cout << std::endl;
         }
     }
 };
