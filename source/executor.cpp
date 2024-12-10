@@ -101,6 +101,9 @@ void Executor::execute_JALR (Inst* inst, Hart& hart) {
     // TODO: instruction-address-misaligned exception
     if ((target_addr % WORD_SIZE) != 0)
         return;
+    
+    if (target_addr == 0)
+        hart.finish();
 
     hart.set_pc_val (target_addr);
     hart.set_reg_val (inst_I->get_rd(), inst_I->get_addr() + WORD_SIZE);

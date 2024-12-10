@@ -30,6 +30,8 @@ struct de_cell {
 //--------------------------------------------------------------------------
 class Hart final {
 private:
+    bool stop;
+
     uint64_t start_addr;
 
     Memory memory;
@@ -49,6 +51,9 @@ private:
     friend void set_nop_de_cell (Hart& hart);
 
 public:
+// Function that terminates running of pipeline
+    void finish () { stop = true; }
+
 // Interaction with memory
     void map_seg_to_VAS (Segment& segment);
     inline void set_start_addr (uint64_t vaddr) { start_addr = vaddr; }
