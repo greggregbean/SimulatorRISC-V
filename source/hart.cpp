@@ -96,13 +96,27 @@ void Hart::execute (bool trace) {
 // Main pipeline cycle
 //--------------------------------------------------------------------------
 void Hart::run_pipeline (bool trace) {
+    uint64_t num_of_executed_inst = 0;
+
+    auto t_start = std::chrono::high_resolution_clock::now();
+
     do {
         set_reg_val (0, 0);
         
         fetch();
         decode();
         execute (trace);
+
+        num_of_executed_inst++;
     } while (!stop);
+
+    const auto t_end = std::chrono::high_resolution_clock::now();
+    double duration = std::chrono::duration<double>(t_end - t_start).count();
+    double perfomance = num_of_executed_inst / duration;
+
+    std::cout << "Time passed: " << duration  << " s" << std::endl 
+              << "Number of executed instructions: " << num_of_executed_inst << std::endl
+              << "Performance: " << perfomance / 1000000 << " MIPS" << std::endl;
 }
 
 void Hart::dump () {

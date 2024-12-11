@@ -19,10 +19,10 @@ Disassembly of section .text:
    10114:	0580006f          	j	1016c <isSafe+0x84>
    10118:	fc442703          	lw	a4,-60(s0)
    1011c:	00070793          	mv	a5,a4
-   10120:	00179793          	slli	a5,a5,0x1
-   10124:	00e787b3          	add	a5,a5,a4
-   10128:	00379793          	slli	a5,a5,0x3
-   1012c:	00e787b3          	add	a5,a5,a4
+   10120:	00379793          	slli	a5,a5,0x3
+   10124:	40e787b3          	sub	a5,a5,a4
+   10128:	00279793          	slli	a5,a5,0x2
+   1012c:	40e787b3          	sub	a5,a5,a4
    10130:	00279793          	slli	a5,a5,0x2
    10134:	00078713          	mv	a4,a5
    10138:	fc843783          	ld	a5,-56(s0)
@@ -51,10 +51,10 @@ Disassembly of section .text:
    10194:	0640006f          	j	101f8 <isSafe+0x110>
    10198:	fe842703          	lw	a4,-24(s0)
    1019c:	00070793          	mv	a5,a4
-   101a0:	00179793          	slli	a5,a5,0x1
-   101a4:	00e787b3          	add	a5,a5,a4
-   101a8:	00379793          	slli	a5,a5,0x3
-   101ac:	00e787b3          	add	a5,a5,a4
+   101a0:	00379793          	slli	a5,a5,0x3
+   101a4:	40e787b3          	sub	a5,a5,a4
+   101a8:	00279793          	slli	a5,a5,0x2
+   101ac:	40e787b3          	sub	a5,a5,a4
    101b0:	00279793          	slli	a5,a5,0x2
    101b4:	00078713          	mv	a4,a5
    101b8:	fc843783          	ld	a5,-56(s0)
@@ -86,10 +86,10 @@ Disassembly of section .text:
    10220:	0640006f          	j	10284 <isSafe+0x19c>
    10224:	fe042703          	lw	a4,-32(s0)
    10228:	00070793          	mv	a5,a4
-   1022c:	00179793          	slli	a5,a5,0x1
-   10230:	00e787b3          	add	a5,a5,a4
-   10234:	00379793          	slli	a5,a5,0x3
-   10238:	00e787b3          	add	a5,a5,a4
+   1022c:	00379793          	slli	a5,a5,0x3
+   10230:	40e787b3          	sub	a5,a5,a4
+   10234:	00279793          	slli	a5,a5,0x2
+   10238:	40e787b3          	sub	a5,a5,a4
    1023c:	00279793          	slli	a5,a5,0x2
    10240:	00078713          	mv	a4,a5
    10244:	fc843783          	ld	a5,-56(s0)
@@ -110,7 +110,7 @@ Disassembly of section .text:
    10280:	fcf42e23          	sw	a5,-36(s0)
    10284:	fe042783          	lw	a5,-32(s0)
    10288:	0007871b          	sext.w	a4,a5
-   1028c:	01800793          	li	a5,24
+   1028c:	01a00793          	li	a5,26
    10290:	00e7c863          	blt	a5,a4,102a0 <isSafe+0x1b8>
    10294:	fdc42783          	lw	a5,-36(s0)
    10298:	0007879b          	sext.w	a5,a5
@@ -132,7 +132,7 @@ Disassembly of section .text:
    102d0:	fcf42a23          	sw	a5,-44(s0)
    102d4:	fd442783          	lw	a5,-44(s0)
    102d8:	0007871b          	sext.w	a4,a5
-   102dc:	01900793          	li	a5,25
+   102dc:	01b00793          	li	a5,27
    102e0:	00f71663          	bne	a4,a5,102ec <solveNQueens+0x34>
    102e4:	00100793          	li	a5,1
    102e8:	0e80006f          	j	103d0 <solveNQueens+0x118>
@@ -148,10 +148,10 @@ Disassembly of section .text:
    10310:	0a078063          	beqz	a5,103b0 <solveNQueens+0xf8>
    10314:	fec42703          	lw	a4,-20(s0)
    10318:	00070793          	mv	a5,a4
-   1031c:	00179793          	slli	a5,a5,0x1
-   10320:	00e787b3          	add	a5,a5,a4
-   10324:	00379793          	slli	a5,a5,0x3
-   10328:	00e787b3          	add	a5,a5,a4
+   1031c:	00379793          	slli	a5,a5,0x3
+   10320:	40e787b3          	sub	a5,a5,a4
+   10324:	00279793          	slli	a5,a5,0x2
+   10328:	40e787b3          	sub	a5,a5,a4
    1032c:	00279793          	slli	a5,a5,0x2
    10330:	00078713          	mv	a4,a5
    10334:	fd843783          	ld	a5,-40(s0)
@@ -173,10 +173,10 @@ Disassembly of section .text:
    10374:	05c0006f          	j	103d0 <solveNQueens+0x118>
    10378:	fec42703          	lw	a4,-20(s0)
    1037c:	00070793          	mv	a5,a4
-   10380:	00179793          	slli	a5,a5,0x1
-   10384:	00e787b3          	add	a5,a5,a4
-   10388:	00379793          	slli	a5,a5,0x3
-   1038c:	00e787b3          	add	a5,a5,a4
+   10380:	00379793          	slli	a5,a5,0x3
+   10384:	40e787b3          	sub	a5,a5,a4
+   10388:	00279793          	slli	a5,a5,0x2
+   1038c:	40e787b3          	sub	a5,a5,a4
    10390:	00279793          	slli	a5,a5,0x2
    10394:	00078713          	mv	a4,a5
    10398:	fd843783          	ld	a5,-40(s0)
@@ -190,7 +190,7 @@ Disassembly of section .text:
    103b8:	fef42623          	sw	a5,-20(s0)
    103bc:	fec42783          	lw	a5,-20(s0)
    103c0:	0007871b          	sext.w	a4,a5
-   103c4:	01800793          	li	a5,24
+   103c4:	01a00793          	li	a5,26
    103c8:	f2e7d6e3          	bge	a5,a4,102f4 <solveNQueens+0x3c>
    103cc:	00000793          	li	a5,0
    103d0:	00078513          	mv	a0,a5
@@ -204,7 +204,7 @@ Disassembly of section .text:
    103e8:	7e113423          	sd	ra,2024(sp)
    103ec:	7e813023          	sd	s0,2016(sp)
    103f0:	7f010413          	addi	s0,sp,2032
-   103f4:	e1010113          	addi	sp,sp,-496
+   103f4:	c7010113          	addi	sp,sp,-912
    103f8:	fe042623          	sw	zero,-20(s0)
    103fc:	06c0006f          	j	10468 <main+0x84>
    10400:	fe042423          	sw	zero,-24(s0)
@@ -215,30 +215,30 @@ Disassembly of section .text:
    10414:	fe842603          	lw	a2,-24(s0)
    10418:	fec42703          	lw	a4,-20(s0)
    1041c:	00070793          	mv	a5,a4
-   10420:	00179793          	slli	a5,a5,0x1
-   10424:	00e787b3          	add	a5,a5,a4
-   10428:	00379793          	slli	a5,a5,0x3
-   1042c:	00e787b3          	add	a5,a5,a4
+   10420:	00379793          	slli	a5,a5,0x3
+   10424:	40e787b3          	sub	a5,a5,a4
+   10428:	00279793          	slli	a5,a5,0x2
+   1042c:	40e787b3          	sub	a5,a5,a4
    10430:	00c787b3          	add	a5,a5,a2
    10434:	00279793          	slli	a5,a5,0x2
    10438:	00f687b3          	add	a5,a3,a5
-   1043c:	6207a823          	sw	zero,1584(a5)
+   1043c:	4807a823          	sw	zero,1168(a5)
    10440:	fe842783          	lw	a5,-24(s0)
    10444:	0017879b          	addiw	a5,a5,1
    10448:	fef42423          	sw	a5,-24(s0)
    1044c:	fe842783          	lw	a5,-24(s0)
    10450:	0007871b          	sext.w	a4,a5
-   10454:	01800793          	li	a5,24
+   10454:	01a00793          	li	a5,26
    10458:	fae7d8e3          	bge	a5,a4,10408 <main+0x24>
    1045c:	fec42783          	lw	a5,-20(s0)
    10460:	0017879b          	addiw	a5,a5,1
    10464:	fef42623          	sw	a5,-20(s0)
    10468:	fec42783          	lw	a5,-20(s0)
    1046c:	0007871b          	sext.w	a4,a5
-   10470:	01800793          	li	a5,24
+   10470:	01a00793          	li	a5,26
    10474:	f8e7d6e3          	bge	a5,a4,10400 <main+0x1c>
    10478:	fffff7b7          	lui	a5,0xfffff
-   1047c:	63078793          	addi	a5,a5,1584 # fffffffffffff630 <__global_pointer$+0xfffffffffffede30>
+   1047c:	49078793          	addi	a5,a5,1168 # fffffffffffff490 <__global_pointer$+0xfffffffffffedc90>
    10480:	ff078793          	addi	a5,a5,-16
    10484:	008787b3          	add	a5,a5,s0
    10488:	00000593          	li	a1,0
@@ -246,7 +246,7 @@ Disassembly of section .text:
    10490:	e29ff0ef          	jal	102b8 <solveNQueens>
    10494:	00050793          	mv	a5,a0
    10498:	00078513          	mv	a0,a5
-   1049c:	1f010113          	addi	sp,sp,496
+   1049c:	39010113          	addi	sp,sp,912
    104a0:	7e813083          	ld	ra,2024(sp)
    104a4:	7e013403          	ld	s0,2016(sp)
    104a8:	7f010113          	addi	sp,sp,2032

@@ -21,18 +21,18 @@ export RISCV=/opt/riscv/
 
 ## Compile tests
 ````
-riscv64-unknown-linux-gnu-gcc -nostdlib -march=rv64i -mabi=lp64 --static -Wl,-emain test.c
+riscv64-unknown-linux-gnu-gcc -nostdlib -march=rv64i -mabi=lp64 -static -Wl,-emain 8_queens.c -o 8_queens.o
 ````
 
 
 ## Objdump tests
 ````
-riscv64-unknown-linux-gnu-objdump -d a.out > a.dump
+riscv64-unknown-linux-gnu-objdump -d 8_queens.o > 8_queens.dump
 ````
 
 ## Run
 ````
-./simulator test.elf
+./simulator ../test/8_queens.o
 ````
 
 ## Cosimulation with spike

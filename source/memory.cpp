@@ -5,8 +5,10 @@ void Memory::mem_load (uint64_t offset, void* ptr, int ptr_size) {
 }
 
 void Memory::mem_store (uint64_t offset, void* ptr, int ptr_size) {
-    assert (curr_size + ptr_size <= mem_size 
-        && "there is no more space in the memory");
+    // TODO: make correct assertion
+    // assert (curr_size + ptr_size <= mem_size 
+    //     && "there is no more space in the memory");
+
     assert ((offset + ptr_size <= mem_size) && (offset + ptr_size >= 0) 
         && "going beyond the boundaries of the addr space");
     curr_size += ptr_size;

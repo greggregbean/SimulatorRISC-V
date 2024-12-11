@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <chrono>
 
 #include "core/regfile.hpp"
 #include "core/segment.hpp"
