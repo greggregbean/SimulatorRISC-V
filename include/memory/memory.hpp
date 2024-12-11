@@ -17,12 +17,12 @@ private:
     uint64_t curr_size = 0;
     std::byte* mem = nullptr;
 
-    Stack<size_t> clean_pages{};
+    Stack<uint64_t> clean_pages{};
 
 public:
     Memory (int size = DEFAULT_MEM_SIZE): mem_size (size) {
         mem = new std::byte [mem_size];
-        for(size_t i = size / 2 / VPAGE_SIZE; i >= 0; --i) {
+        for(uint64_t i = size / VPAGE_SIZE; i >= 0; --i) {
             clean_pages.Push(i);
         }
     }
@@ -35,6 +35,8 @@ public:
 
     inline uint64_t get_mem_size () { return mem_size; }
     inline uint64_t get_curr_size () { return curr_size; }
+
+    inline uint64_t get_clean_page () { return clean_pages.Pop(); }
 
     void mem_store (uint64_t offset, void* ptr, int ptr_size);
     void mem_load (uint64_t offset, void* ptr, int ptr_size);

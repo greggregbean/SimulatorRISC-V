@@ -8,7 +8,7 @@
 
 #include "utils/constants.hpp"
 
-#include "memory.hpp"
+#include "memory/memory.hpp"
 #include "stages/decoder.hpp"
 
 //--------------------------------------------------------------------------
@@ -45,6 +45,7 @@ private:
     Memory memory;
     Regfile regfile;
     Reg pc;
+    Reg satr;
     Decoder  decoder;
 
 // Pipeline stages
@@ -75,14 +76,13 @@ public:
     inline uint64_t get_reg_val (uint8_t reg) { return regfile.get_reg_val (reg); }
     inline void set_pc_val (uint64_t new_pc) { pc.set_val (new_pc); }
     inline uint64_t get_pc_val () { return pc.get_val (); }
+    inline void set_satr_val (uint64_t new_satr) { satr.set_val (new_satr); }
+    inline uint64_t get_satr_val () { return satr.get_val (); }
 
 // Main pipeline cycle
     void run_pipeline ();
 
-    Hart () {
-        // Setting stack pointer as the end of VAS
-        regfile.set_reg_val (2, DEFAULT_MEM_SIZE);
-    }
+    Hart ();
 
     void dump () {
         std::cout << "----------------------- Hart -------------------" << std::endl;

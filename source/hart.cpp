@@ -1,5 +1,20 @@
 #include "stages/executor.hpp"
 #include "hart.hpp"
+#include "memory/mmu.hpp"
+
+Hart::Hart() {
+    // Setting stack pointer as the end of VAS
+    regfile.set_reg_val (2, DEFAULT_MEM_SIZE);
+
+    set_satr_val (memory.get_clean_page());
+    for (int i = 1; i <= DEFAULT_STACK_SIZE; ++i) {
+        uint64_t page_vaddr = DEFAULT_MEM_SIZE - VPAGE_SIZE * i;
+        uint64_t ppn_3 = create_page_table_lvl (get_satr_val(), GetVPN3(page_vaddr), memory);
+        uint64_t ppn_2 = create_page_table_lvl (ppn_3, GetVPN2(page_vaddr), memory);
+        uint64_t ppn_1 = create_page_table_lvl (ppn_2, GetVPN1(page_vaddr), memory);
+        uint64_t ppn_0 = create_page_table_lvl (ppn_1, GetVPN0(page_vaddr), memory);
+    }
+}
 
 //--------------------------------------------------------------------------
 // Interaction with memory
@@ -9,8 +24,9 @@ void Hart::map_seg_to_VAS (Segment& segment) {
     uint64_t vaddr = segment.get_vaddr();
     uint64_t vp_alignment = (VPAGE_SIZE - vaddr % VPAGE_SIZE) % VPAGE_SIZE;
     if (vp_alignment != 0) {
+        uint64_t vaddr_without_mask = vaddr & VPAGE_OFFSET_MASK;
         //check if the page is readable or writable
-        if (segment.get_flag() & (PF_W || PF_R)) {
+        if (segment.get_flag() & (PF_W | PF_R)) {
             return;
         }
 
