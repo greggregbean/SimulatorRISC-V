@@ -20,32 +20,6 @@ inline uint64_t sext (uint64_t val, uint8_t size) {
     return val | ext_mask;
 }
 
-// The NOP instruction does not change any architecturally 
-// visible state, except for advancing the pc. NOP is encoded 
-// as ADDI x0, x0, 0.
-Inst_I* create_nop () {
-    Inst_I* nop = new Inst_I;
-
-    nop->type = InstType::I;
-    nop->name = InstName::ADDI;
-    nop->opcode = Opcode::OP_IMM;
-    nop->execute_func = Executor::execute_ADDI;
-    nop->imm = 0;
-    nop->rs1 = 0;
-    nop->rd = 0;
-
-    return nop;
-}
-
-inline void set_nop_fd_cell (Hart& hart) {
-    hart.fd.inst = 0x00000013;
-} 
-
-inline void set_nop_de_cell (Hart& hart) {
-    hart.de.inst->~Inst();
-    hart.de.inst = create_nop();
-}
-
 //--------------------------------------------------------------------------
 // RV32I Base Instruction Set
 //--------------------------------------------------------------------------
@@ -54,7 +28,7 @@ void Executor::execute_LUI (Inst* inst, Hart& hart) {
 
     uint64_t imm_val = inst_U->get_imm() << 12;
 
-    hart.set_reg_val (inst_U->get_rd(), imm_val);
+    hart.set_reg_val (inst_U->get_rd(), sext(imm_val, 32));
 }
 
 void Executor::execute_AUIPC (Inst* inst, Hart& hart) {
@@ -62,7 +36,7 @@ void Executor::execute_AUIPC (Inst* inst, Hart& hart) {
 
     uint64_t imm_val = inst_U->get_imm() << 12;
 
-    hart.set_reg_val (inst_U->get_rd(), inst_U->get_addr() + imm_val);
+    hart.set_reg_val (inst_U->get_rd(), inst_U->get_addr() + sext(imm_val, 32));
 }
 
 // NOTE: If an instruction access-fault or instruction 
@@ -85,10 +59,6 @@ void Executor::execute_JAL (Inst* inst, Hart& hart) {
 
     hart.set_pc_val (target_addr);
     hart.set_reg_val (inst_J->get_rd(), inst_J->get_addr() + WORD_SIZE);
-
-    // Insert bubbles
-    set_nop_fd_cell (hart);
-    set_nop_de_cell (hart);
 }
 
 void Executor::execute_JALR (Inst* inst, Hart& hart) {
@@ -107,10 +77,6 @@ void Executor::execute_JALR (Inst* inst, Hart& hart) {
 
     hart.set_pc_val (target_addr);
     hart.set_reg_val (inst_I->get_rd(), inst_I->get_addr() + WORD_SIZE);
-
-    // Insert bubbles
-    set_nop_fd_cell (hart);
-    set_nop_de_cell (hart);
 }
 
 // TODO: The conditional branch instructions will generate an 
@@ -131,10 +97,6 @@ void Executor::execute_BEQ (Inst* inst, Hart& hart) {
         // TODO: instruction-address-misaligned exception
         if ((target_addr % WORD_SIZE) != 0)
             return;
-        
-        // Insert bubbles
-        set_nop_fd_cell (hart);
-        set_nop_de_cell (hart); 
 
         hart.set_pc_val (target_addr);
     }     
@@ -153,10 +115,6 @@ void Executor::execute_BNE (Inst* inst, Hart& hart) {
         // TODO: instruction-address-misaligned exception
         if ((target_addr % WORD_SIZE) != 0)
             return;
-        
-        // Insert bubbles
-        set_nop_fd_cell (hart);
-        set_nop_de_cell (hart);
 
         hart.set_pc_val (target_addr);
     }
@@ -175,10 +133,6 @@ void Executor::execute_BLT (Inst* inst, Hart& hart) {
         // TODO: instruction-address-misaligned exception
         if ((target_addr % WORD_SIZE) != 0)
             return;
-        
-        // Insert bubbles
-        set_nop_fd_cell (hart);
-        set_nop_de_cell (hart);
 
         hart.set_pc_val (target_addr);
     }
@@ -198,10 +152,6 @@ void Executor::execute_BGE (Inst* inst, Hart& hart) {
         if ((target_addr % WORD_SIZE) != 0)
             return;
 
-        // Insert bubbles
-        set_nop_fd_cell (hart);
-        set_nop_de_cell (hart);
-
         hart.set_pc_val (target_addr);
     }
 }
@@ -220,10 +170,6 @@ void Executor::execute_BLTU (Inst* inst, Hart& hart) {
         if ((target_addr % WORD_SIZE) != 0)
             return;
 
-        // Insert bubbles
-        set_nop_fd_cell (hart);
-        set_nop_de_cell (hart);
-
         hart.set_pc_val (target_addr);
     }
 }
@@ -241,10 +187,6 @@ void Executor::execute_BGEU (Inst* inst, Hart& hart) {
         // TODO: instruction-address-misaligned exception
         if ((target_addr % WORD_SIZE) != 0)
             return;
-
-        // Insert bubbles
-        set_nop_fd_cell (hart);
-        set_nop_de_cell (hart);
 
         hart.set_pc_val (target_addr);
     }

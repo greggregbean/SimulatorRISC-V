@@ -89,21 +89,20 @@ void Hart::execute (bool trace) {
 
     cur_de_inst->execute_func (cur_de_inst, *this);
 
-    cur_de_inst->~Inst();
+    delete cur_de_inst;
 }
 
 //--------------------------------------------------------------------------
 // Main pipeline cycle
 //--------------------------------------------------------------------------
 void Hart::run_pipeline (bool trace) {
-    while (true) {
+    do {
         set_reg_val (0, 0);
         
-        execute (trace);
-        if (stop) break;
-        decode();
         fetch();
-    }
+        decode();
+        execute (trace);
+    } while (!stop);
 }
 
 void Hart::dump () {

@@ -1,0 +1,253 @@
+
+8_queens.o:     file format elf64-littleriscv
+
+
+Disassembly of section .text:
+
+00000000000100e8 <isSafe>:
+   100e8:	fc010113          	addi	sp,sp,-64
+   100ec:	02113c23          	sd	ra,56(sp)
+   100f0:	02813823          	sd	s0,48(sp)
+   100f4:	04010413          	addi	s0,sp,64
+   100f8:	fca43423          	sd	a0,-56(s0)
+   100fc:	00058793          	mv	a5,a1
+   10100:	00060713          	mv	a4,a2
+   10104:	fcf42223          	sw	a5,-60(s0)
+   10108:	00070793          	mv	a5,a4
+   1010c:	fcf42023          	sw	a5,-64(s0)
+   10110:	fe042623          	sw	zero,-20(s0)
+   10114:	0580006f          	j	1016c <isSafe+0x84>
+   10118:	fc442703          	lw	a4,-60(s0)
+   1011c:	00070793          	mv	a5,a4
+   10120:	00179793          	slli	a5,a5,0x1
+   10124:	00e787b3          	add	a5,a5,a4
+   10128:	00379793          	slli	a5,a5,0x3
+   1012c:	00e787b3          	add	a5,a5,a4
+   10130:	00279793          	slli	a5,a5,0x2
+   10134:	00078713          	mv	a4,a5
+   10138:	fc843783          	ld	a5,-56(s0)
+   1013c:	00e78733          	add	a4,a5,a4
+   10140:	fec42783          	lw	a5,-20(s0)
+   10144:	00279793          	slli	a5,a5,0x2
+   10148:	00f707b3          	add	a5,a4,a5
+   1014c:	0007a703          	lw	a4,0(a5)
+   10150:	00100793          	li	a5,1
+   10154:	00f71663          	bne	a4,a5,10160 <isSafe+0x78>
+   10158:	00000793          	li	a5,0
+   1015c:	1480006f          	j	102a4 <isSafe+0x1bc>
+   10160:	fec42783          	lw	a5,-20(s0)
+   10164:	0017879b          	addiw	a5,a5,1
+   10168:	fef42623          	sw	a5,-20(s0)
+   1016c:	fec42783          	lw	a5,-20(s0)
+   10170:	00078713          	mv	a4,a5
+   10174:	fc042783          	lw	a5,-64(s0)
+   10178:	0007071b          	sext.w	a4,a4
+   1017c:	0007879b          	sext.w	a5,a5
+   10180:	f8f74ce3          	blt	a4,a5,10118 <isSafe+0x30>
+   10184:	fc442783          	lw	a5,-60(s0)
+   10188:	fef42423          	sw	a5,-24(s0)
+   1018c:	fc042783          	lw	a5,-64(s0)
+   10190:	fef42223          	sw	a5,-28(s0)
+   10194:	0640006f          	j	101f8 <isSafe+0x110>
+   10198:	fe842703          	lw	a4,-24(s0)
+   1019c:	00070793          	mv	a5,a4
+   101a0:	00179793          	slli	a5,a5,0x1
+   101a4:	00e787b3          	add	a5,a5,a4
+   101a8:	00379793          	slli	a5,a5,0x3
+   101ac:	00e787b3          	add	a5,a5,a4
+   101b0:	00279793          	slli	a5,a5,0x2
+   101b4:	00078713          	mv	a4,a5
+   101b8:	fc843783          	ld	a5,-56(s0)
+   101bc:	00e78733          	add	a4,a5,a4
+   101c0:	fe442783          	lw	a5,-28(s0)
+   101c4:	00279793          	slli	a5,a5,0x2
+   101c8:	00f707b3          	add	a5,a4,a5
+   101cc:	0007a703          	lw	a4,0(a5)
+   101d0:	00100793          	li	a5,1
+   101d4:	00f71663          	bne	a4,a5,101e0 <isSafe+0xf8>
+   101d8:	00000793          	li	a5,0
+   101dc:	0c80006f          	j	102a4 <isSafe+0x1bc>
+   101e0:	fe842783          	lw	a5,-24(s0)
+   101e4:	fff7879b          	addiw	a5,a5,-1
+   101e8:	fef42423          	sw	a5,-24(s0)
+   101ec:	fe442783          	lw	a5,-28(s0)
+   101f0:	fff7879b          	addiw	a5,a5,-1
+   101f4:	fef42223          	sw	a5,-28(s0)
+   101f8:	fe842783          	lw	a5,-24(s0)
+   101fc:	0007879b          	sext.w	a5,a5
+   10200:	0007c863          	bltz	a5,10210 <isSafe+0x128>
+   10204:	fe442783          	lw	a5,-28(s0)
+   10208:	0007879b          	sext.w	a5,a5
+   1020c:	f807d6e3          	bgez	a5,10198 <isSafe+0xb0>
+   10210:	fc442783          	lw	a5,-60(s0)
+   10214:	fef42023          	sw	a5,-32(s0)
+   10218:	fc042783          	lw	a5,-64(s0)
+   1021c:	fcf42e23          	sw	a5,-36(s0)
+   10220:	0640006f          	j	10284 <isSafe+0x19c>
+   10224:	fe042703          	lw	a4,-32(s0)
+   10228:	00070793          	mv	a5,a4
+   1022c:	00179793          	slli	a5,a5,0x1
+   10230:	00e787b3          	add	a5,a5,a4
+   10234:	00379793          	slli	a5,a5,0x3
+   10238:	00e787b3          	add	a5,a5,a4
+   1023c:	00279793          	slli	a5,a5,0x2
+   10240:	00078713          	mv	a4,a5
+   10244:	fc843783          	ld	a5,-56(s0)
+   10248:	00e78733          	add	a4,a5,a4
+   1024c:	fdc42783          	lw	a5,-36(s0)
+   10250:	00279793          	slli	a5,a5,0x2
+   10254:	00f707b3          	add	a5,a4,a5
+   10258:	0007a703          	lw	a4,0(a5)
+   1025c:	00100793          	li	a5,1
+   10260:	00f71663          	bne	a4,a5,1026c <isSafe+0x184>
+   10264:	00000793          	li	a5,0
+   10268:	03c0006f          	j	102a4 <isSafe+0x1bc>
+   1026c:	fe042783          	lw	a5,-32(s0)
+   10270:	0017879b          	addiw	a5,a5,1
+   10274:	fef42023          	sw	a5,-32(s0)
+   10278:	fdc42783          	lw	a5,-36(s0)
+   1027c:	fff7879b          	addiw	a5,a5,-1
+   10280:	fcf42e23          	sw	a5,-36(s0)
+   10284:	fe042783          	lw	a5,-32(s0)
+   10288:	0007871b          	sext.w	a4,a5
+   1028c:	01800793          	li	a5,24
+   10290:	00e7c863          	blt	a5,a4,102a0 <isSafe+0x1b8>
+   10294:	fdc42783          	lw	a5,-36(s0)
+   10298:	0007879b          	sext.w	a5,a5
+   1029c:	f807d4e3          	bgez	a5,10224 <isSafe+0x13c>
+   102a0:	00100793          	li	a5,1
+   102a4:	00078513          	mv	a0,a5
+   102a8:	03813083          	ld	ra,56(sp)
+   102ac:	03013403          	ld	s0,48(sp)
+   102b0:	04010113          	addi	sp,sp,64
+   102b4:	00008067          	ret
+
+00000000000102b8 <solveNQueens>:
+   102b8:	fd010113          	addi	sp,sp,-48
+   102bc:	02113423          	sd	ra,40(sp)
+   102c0:	02813023          	sd	s0,32(sp)
+   102c4:	03010413          	addi	s0,sp,48
+   102c8:	fca43c23          	sd	a0,-40(s0)
+   102cc:	00058793          	mv	a5,a1
+   102d0:	fcf42a23          	sw	a5,-44(s0)
+   102d4:	fd442783          	lw	a5,-44(s0)
+   102d8:	0007871b          	sext.w	a4,a5
+   102dc:	01900793          	li	a5,25
+   102e0:	00f71663          	bne	a4,a5,102ec <solveNQueens+0x34>
+   102e4:	00100793          	li	a5,1
+   102e8:	0e80006f          	j	103d0 <solveNQueens+0x118>
+   102ec:	fe042623          	sw	zero,-20(s0)
+   102f0:	0cc0006f          	j	103bc <solveNQueens+0x104>
+   102f4:	fd442703          	lw	a4,-44(s0)
+   102f8:	fec42783          	lw	a5,-20(s0)
+   102fc:	00070613          	mv	a2,a4
+   10300:	00078593          	mv	a1,a5
+   10304:	fd843503          	ld	a0,-40(s0)
+   10308:	de1ff0ef          	jal	100e8 <isSafe>
+   1030c:	00050793          	mv	a5,a0
+   10310:	0a078063          	beqz	a5,103b0 <solveNQueens+0xf8>
+   10314:	fec42703          	lw	a4,-20(s0)
+   10318:	00070793          	mv	a5,a4
+   1031c:	00179793          	slli	a5,a5,0x1
+   10320:	00e787b3          	add	a5,a5,a4
+   10324:	00379793          	slli	a5,a5,0x3
+   10328:	00e787b3          	add	a5,a5,a4
+   1032c:	00279793          	slli	a5,a5,0x2
+   10330:	00078713          	mv	a4,a5
+   10334:	fd843783          	ld	a5,-40(s0)
+   10338:	00e78733          	add	a4,a5,a4
+   1033c:	fd442783          	lw	a5,-44(s0)
+   10340:	00279793          	slli	a5,a5,0x2
+   10344:	00f707b3          	add	a5,a4,a5
+   10348:	00100713          	li	a4,1
+   1034c:	00e7a023          	sw	a4,0(a5)
+   10350:	fd442783          	lw	a5,-44(s0)
+   10354:	0017879b          	addiw	a5,a5,1
+   10358:	0007879b          	sext.w	a5,a5
+   1035c:	00078593          	mv	a1,a5
+   10360:	fd843503          	ld	a0,-40(s0)
+   10364:	f55ff0ef          	jal	102b8 <solveNQueens>
+   10368:	00050793          	mv	a5,a0
+   1036c:	00078663          	beqz	a5,10378 <solveNQueens+0xc0>
+   10370:	00100793          	li	a5,1
+   10374:	05c0006f          	j	103d0 <solveNQueens+0x118>
+   10378:	fec42703          	lw	a4,-20(s0)
+   1037c:	00070793          	mv	a5,a4
+   10380:	00179793          	slli	a5,a5,0x1
+   10384:	00e787b3          	add	a5,a5,a4
+   10388:	00379793          	slli	a5,a5,0x3
+   1038c:	00e787b3          	add	a5,a5,a4
+   10390:	00279793          	slli	a5,a5,0x2
+   10394:	00078713          	mv	a4,a5
+   10398:	fd843783          	ld	a5,-40(s0)
+   1039c:	00e78733          	add	a4,a5,a4
+   103a0:	fd442783          	lw	a5,-44(s0)
+   103a4:	00279793          	slli	a5,a5,0x2
+   103a8:	00f707b3          	add	a5,a4,a5
+   103ac:	0007a023          	sw	zero,0(a5)
+   103b0:	fec42783          	lw	a5,-20(s0)
+   103b4:	0017879b          	addiw	a5,a5,1
+   103b8:	fef42623          	sw	a5,-20(s0)
+   103bc:	fec42783          	lw	a5,-20(s0)
+   103c0:	0007871b          	sext.w	a4,a5
+   103c4:	01800793          	li	a5,24
+   103c8:	f2e7d6e3          	bge	a5,a4,102f4 <solveNQueens+0x3c>
+   103cc:	00000793          	li	a5,0
+   103d0:	00078513          	mv	a0,a5
+   103d4:	02813083          	ld	ra,40(sp)
+   103d8:	02013403          	ld	s0,32(sp)
+   103dc:	03010113          	addi	sp,sp,48
+   103e0:	00008067          	ret
+
+00000000000103e4 <main>:
+   103e4:	81010113          	addi	sp,sp,-2032
+   103e8:	7e113423          	sd	ra,2024(sp)
+   103ec:	7e813023          	sd	s0,2016(sp)
+   103f0:	7f010413          	addi	s0,sp,2032
+   103f4:	e1010113          	addi	sp,sp,-496
+   103f8:	fe042623          	sw	zero,-20(s0)
+   103fc:	06c0006f          	j	10468 <main+0x84>
+   10400:	fe042423          	sw	zero,-24(s0)
+   10404:	0480006f          	j	1044c <main+0x68>
+   10408:	fffff7b7          	lui	a5,0xfffff
+   1040c:	ff078793          	addi	a5,a5,-16 # ffffffffffffeff0 <__global_pointer$+0xfffffffffffed7f0>
+   10410:	008786b3          	add	a3,a5,s0
+   10414:	fe842603          	lw	a2,-24(s0)
+   10418:	fec42703          	lw	a4,-20(s0)
+   1041c:	00070793          	mv	a5,a4
+   10420:	00179793          	slli	a5,a5,0x1
+   10424:	00e787b3          	add	a5,a5,a4
+   10428:	00379793          	slli	a5,a5,0x3
+   1042c:	00e787b3          	add	a5,a5,a4
+   10430:	00c787b3          	add	a5,a5,a2
+   10434:	00279793          	slli	a5,a5,0x2
+   10438:	00f687b3          	add	a5,a3,a5
+   1043c:	6207a823          	sw	zero,1584(a5)
+   10440:	fe842783          	lw	a5,-24(s0)
+   10444:	0017879b          	addiw	a5,a5,1
+   10448:	fef42423          	sw	a5,-24(s0)
+   1044c:	fe842783          	lw	a5,-24(s0)
+   10450:	0007871b          	sext.w	a4,a5
+   10454:	01800793          	li	a5,24
+   10458:	fae7d8e3          	bge	a5,a4,10408 <main+0x24>
+   1045c:	fec42783          	lw	a5,-20(s0)
+   10460:	0017879b          	addiw	a5,a5,1
+   10464:	fef42623          	sw	a5,-20(s0)
+   10468:	fec42783          	lw	a5,-20(s0)
+   1046c:	0007871b          	sext.w	a4,a5
+   10470:	01800793          	li	a5,24
+   10474:	f8e7d6e3          	bge	a5,a4,10400 <main+0x1c>
+   10478:	fffff7b7          	lui	a5,0xfffff
+   1047c:	63078793          	addi	a5,a5,1584 # fffffffffffff630 <__global_pointer$+0xfffffffffffede30>
+   10480:	ff078793          	addi	a5,a5,-16
+   10484:	008787b3          	add	a5,a5,s0
+   10488:	00000593          	li	a1,0
+   1048c:	00078513          	mv	a0,a5
+   10490:	e29ff0ef          	jal	102b8 <solveNQueens>
+   10494:	00050793          	mv	a5,a0
+   10498:	00078513          	mv	a0,a5
+   1049c:	1f010113          	addi	sp,sp,496
+   104a0:	7e813083          	ld	ra,2024(sp)
+   104a4:	7e013403          	ld	s0,2016(sp)
+   104a8:	7f010113          	addi	sp,sp,2032
+   104ac:	00008067          	ret
