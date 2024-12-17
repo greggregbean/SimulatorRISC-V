@@ -2,11 +2,8 @@ cmake_minimum_required(VERSION 3.10)
 project(SIMULATOR_RISC)
 
 add_compile_options(
-    -Ofast
-    -g
-    -Wall
-    -Wextra
-    -Wpedantic
+    -O3
+    -flto
 )
 
 set(CMAKE_CXX_STANDARD 17)
