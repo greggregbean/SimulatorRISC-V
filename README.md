@@ -35,7 +35,7 @@ riscv64-unknown-linux-gnu-objdump -d 8_queens.o > 8_queens.dump
 ./simulator ../test/8_queens.o
 ````
 
-## Cosimulation with spike
+## Spike
 [riscv-isa-sim](https://github.com/riscv-software-src/riscv-isa-sim)
 
 For running spike you need pk:

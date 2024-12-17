@@ -2,11 +2,8 @@ cmake_minimum_required(VERSION 3.10)
 project(SIMULATOR_RISC)
 
 add_compile_options(
-    -Ofast
-    -g
-    -Wall
-    -Wextra
-    -Wpedantic
+    -O3
+    -flto
 )
 
 set(CMAKE_CXX_STANDARD 17)
@@ -45,6 +42,7 @@ find_library (LIBELF_LIBRARIES
     ENV LIBRARY_PATH
     ENV LD_LIBRARY_PATH)
 
+<<<<<<< HEAD
 include (FindPackageHandleStandardArgs)
 
 
@@ -92,3 +90,10 @@ target_link_libraries(simulate
   PRIVATE
   SIMULATOR::Lib
 )
+=======
+add_executable(simulator ${SOURCES})
+
+target_include_directories(simulator PRIVATE ${INCLUDE_DIR})
+
+target_link_libraries(simulator PRIVATE ${ELF_LIBRARIES})
+>>>>>>> a0ddc79 (made instruction cache)
