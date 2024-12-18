@@ -9,7 +9,6 @@
 
 #include "utils/constants.hpp"
 #include "utils/macros.hpp"
-#include "utils/stack.hpp"
 
 class Memory {
 private:
@@ -17,14 +16,11 @@ private:
     uint64_t curr_size = 0;
     std::byte* mem = nullptr;
 
-    Stack<uint64_t> clean_pages{};
+    uint64_t pages_controller = 0;
 
 public:
     Memory (int size = DEFAULT_MEM_SIZE): mem_size (size) {
         mem = new std::byte [mem_size];
-        for(uint64_t i = size / VPAGE_SIZE; i >= 0; --i) {
-            clean_pages.Push(i);
-        }
     }
     ~Memory() {
         delete [] mem;
@@ -36,10 +32,11 @@ public:
     inline uint64_t get_mem_size () { return mem_size; }
     inline uint64_t get_curr_size () { return curr_size; }
 
-    inline uint64_t get_clean_page () { return clean_pages.Pop(); }
+    int64_t get_clean_pages(int num = 1);
 
     void mem_store (uint64_t offset, void* ptr, int ptr_size);
     void mem_load (uint64_t offset, void* ptr, int ptr_size);
-    void dump();
+    std::byte* get_host_addr (uint64_t paddr);
+    void dump ();
     void dump_stack (uint64_t sp);
 };

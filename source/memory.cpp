@@ -11,6 +11,16 @@ void Memory::mem_store (uint64_t offset, void* ptr, int ptr_size) {
     std::memcpy (mem + offset, ptr, ptr_size);
 }
 
+std::byte* Memory::get_host_addr(uint64_t paddr) {
+    return mem + paddr;
+}
+
+int64_t Memory::get_clean_pages(int num) {
+    int64_t addr = pages_controller;
+    pages_controller += DEFAULT_ALLOC_PAGES_SIZE * num;
+    return addr;
+}
+
 void Memory::dump () {
     int zero_counter = 0;
 

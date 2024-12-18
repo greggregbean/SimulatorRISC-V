@@ -69,6 +69,8 @@ public:
     void set_start_addr (uint64_t vaddr) { start_addr = vaddr; }
     void load_from_memory (uint64_t vaddr, void* load_ptr, int load_size);
     void store_in_memory (uint64_t vaddr, uint64_t val, int store_size);
+    uint64_t get_clean_pages_from_memory (size_t num = 0) { return memory.get_clean_pages (num); }
+    std::byte* get_mem_host_addr (uint64_t paddr) { return memory.get_host_addr (paddr); } 
     void memory_dump () { memory.dump (); }
     
 // Interaction with regfile
