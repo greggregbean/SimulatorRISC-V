@@ -7,6 +7,7 @@ static const int DWORD_SIZE = sizeof(uint64_t);
 
 static const int DEFAULT_MEM_SIZE           = 1 << 25;
 static const int DEFAULT_STACK_SIZE         = 1 << 5;
+static const int DEFAULT_CACHE_SIZE         = 1 << 6;
 static const int DEFAULT_ALLOC_PAGES_SIZE   = 0x1000;
 
 static const uint64_t F_X = (1 << 0); // Executable flag

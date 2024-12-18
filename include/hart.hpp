@@ -7,6 +7,7 @@
 #include "core/inst.hpp"
 
 #include "utils/constants.hpp"
+#include "utils/cache.hpp"
 
 #include "memory/memory.hpp"
 #include "stages/decoder.hpp"
@@ -40,9 +41,8 @@ struct mw_cell {
 //--------------------------------------------------------------------------
 class Hart final {
 private:
-    uint64_t start_addr;
-
     Memory memory;
+    Cache<uint64_t> tlb;
     Regfile regfile;
     Reg pc;
     Reg satr;
@@ -66,11 +66,11 @@ private:
 public:
 // Interaction with memory
     void map_seg_to_VAS (Segment& segment);
-    void set_start_addr (uint64_t vaddr) { start_addr = vaddr; }
     void load_from_memory (uint64_t vaddr, void* load_ptr, int load_size);
     void store_in_memory (uint64_t vaddr, uint64_t val, int store_size);
     uint64_t get_clean_pages_from_memory (size_t num = 0) { return memory.get_clean_pages (num); }
     std::byte* get_mem_host_addr (uint64_t paddr) { return memory.get_host_addr (paddr); } 
+    uint64_t get_from_tlb(uint64_t vaddr) { return tlb.lookup_update(vaddr); }
     void memory_dump () { memory.dump (); }
     
 // Interaction with regfile

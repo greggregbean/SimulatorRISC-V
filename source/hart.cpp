@@ -24,14 +24,12 @@ void Hart::map_seg_to_VAS (Segment& segment) {
             return;
         }
 
-        memory.mem_store (vaddr - start_addr, segment.get_data(), vp_alignment);
-        //memory.mem_store (from_vaddr_to_paddr(*this, vaddr), segment.get_data(), vp_alignment);
+        memory.mem_store (from_vaddr_to_paddr(*this, vaddr), segment.get_data(), vp_alignment);
     }
 
     //copy the remaining pages
     for (uint64_t vpage_offset = 0; vpage_offset < segment.get_size() - vp_alignment; vpage_offset += VPAGE_SIZE) {
-        //uint64_t paddr = from_vaddr_to_paddr(*this, vaddr + vp_alignment + vpage_offset);
-        uint64_t paddr = vaddr + vp_alignment + vpage_offset - start_addr;
+        uint64_t paddr = from_vaddr_to_paddr(*this, vaddr + vp_alignment + vpage_offset);
 
         //determine the size for the record
         size_t store_size = VPAGE_SIZE;

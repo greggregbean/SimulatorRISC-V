@@ -57,12 +57,18 @@ void prepare_page_table(Hart &hart, uint64_t root_page_addr) {
 uint64_t from_vaddr_to_paddr(Hart &hart, uint64_t vaddr) {
     uint64_t vaddr_mask = vaddr & VPAGE_OFFSET_MASK;
 
+    uint64_t paddr = hart.get_from_tlb(GetVPN0(vaddr));
+
+    if(paddr != 0) {
+        return paddr + vaddr_mask;
+    }
+
     static int nested_transitions = (static_cast<int64_t>(hart.get_satr_val() & (uint64_t(0xFFFF) << 60)) >> 60) - 1;
     uint64_t* current_page_table = 
         reinterpret_cast<uint64_t *>(hart.get_mem_host_addr((hart.get_satr_val() & (int64_t(1) << 44) - 1) << 12));
     uint64_t* ppn_0 = create_page_table_lvl(0, GetVPN0(vaddr), current_page_table, nested_transitions, hart);
     uint64_t* ppn_1 = create_page_table_lvl(1, GetVPN0(vaddr), ppn_0, nested_transitions, hart);
 
-    uint64_t paddr = current_page_table[GetVPN0(vaddr) & ((1 << 9) - 1)];
+    paddr = current_page_table[GetVPN0(vaddr) & ((1 << 9) - 1)];
     return paddr;
 }

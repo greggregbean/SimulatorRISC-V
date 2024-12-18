@@ -39,10 +39,6 @@ void ELFLoader::load (Hart& hart) {
         if (seg_header.p_type == PT_LOAD) {
             Segment seg (seg_header, elf_buf.data());
 
-            if (first_load_segment_flag) {
-                hart.set_start_addr (seg.get_vaddr());
-                first_load_segment_flag = false;
-            }
             hart.map_seg_to_VAS (seg);
         }
     }
