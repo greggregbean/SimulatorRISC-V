@@ -29,12 +29,12 @@ uint64_t get_mode(size_t bit_ad) {
 
 uint64_t* create_page_table_lvl(int lvl, uint64_t vpn, uint64_t* current_page_table, int nested_transitions, Hart &hart) {
     uint64_t VPN_i = (vpn >> 9 * (nested_transitions - lvl)) & ((1 << 9) - 1);
-        //if(i == 2) std::cout << (VPN >> 9 * (nested_ransitions - i)) << " = " << (VPN >> 9) << " * " << (nested_transitions - i) << " " << ((1 << 9) - 1) << "\n";
-        if (current_page_table[VPN_i] == 0) {
-            current_page_table[VPN_i] = hart.get_clean_pages_from_memory(1);
-        }
-        //std::cout << current_page_table[VPN_i] << "\n";
-        return reinterpret_cast<uint64_t *>(hart.get_mem_host_addr(current_page_table[VPN_i]));
+
+    if (current_page_table[VPN_i] == 0) {
+        current_page_table[VPN_i] = hart.get_clean_pages_from_memory(1);
+    }
+
+    return reinterpret_cast<uint64_t *>(hart.get_mem_host_addr(current_page_table[VPN_i]));
 }
 
 void prepare_page_table(Hart &hart, uint64_t root_page_addr) {
@@ -51,9 +51,18 @@ void prepare_page_table(Hart &hart, uint64_t root_page_addr) {
         uint64_t* ppn_1 = create_page_table_lvl(1, GetVPN0(vaddr), ppn_0, nested_transitions, hart);
         
         ppn_1[GetVPN0(vaddr) & ((1 << 9) - 1)] = paddr + (F_X | F_R | F_W);
-
-        //if(i == 0x8FF) {
-        //    hart->setReg(2, vaddr - 4);
-        //}
     }
+}
+
+uint64_t from_vaddr_to_paddr(Hart &hart, uint64_t vaddr) {
+    uint64_t vaddr_mask = vaddr & VPAGE_OFFSET_MASK;
+
+    static int nested_transitions = (static_cast<int64_t>(hart.get_satr_val() & (uint64_t(0xFFFF) << 60)) >> 60) - 1;
+    uint64_t* current_page_table = 
+        reinterpret_cast<uint64_t *>(hart.get_mem_host_addr((hart.get_satr_val() & (int64_t(1) << 44) - 1) << 12));
+    uint64_t* ppn_0 = create_page_table_lvl(0, GetVPN0(vaddr), current_page_table, nested_transitions, hart);
+    uint64_t* ppn_1 = create_page_table_lvl(1, GetVPN0(vaddr), ppn_0, nested_transitions, hart);
+
+    uint64_t paddr = current_page_table[GetVPN0(vaddr) & ((1 << 9) - 1)];
+    return paddr;
 }

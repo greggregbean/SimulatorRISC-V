@@ -11,7 +11,8 @@ int main(int argc, char** argv) {
     ELFLoader elfik (argv[1]);
 
     elfik.load (hart);
-    hart.run_pipeline ();
+    hart.dump();
+    //hart.run_pipeline ();
 
     return 0;
 }

@@ -12,7 +12,6 @@ static const int DEFAULT_ALLOC_PAGES_SIZE   = 0x1000;
 static const uint64_t F_X = (1 << 0); // Executable flag
 static const uint64_t F_W = (1 << 1); // Writable flag
 static const uint64_t F_R = (1 << 2); // Readable flag
-static const uint64_t F_U = (1 << 3); // User-mode flag
 
 //--------------------FOR VADDR--------------------
 static const uint64_t VPAGE_SIZE        = 1 << 12;

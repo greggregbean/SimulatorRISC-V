@@ -6,14 +6,8 @@ Hart::Hart() {
     // Setting stack pointer as the end of VAS
     regfile.set_reg_val (2, DEFAULT_MEM_SIZE);
 
-    set_satr_val (memory.get_clean_page());
-    for (int i = 1; i <= DEFAULT_STACK_SIZE; ++i) {
-        uint64_t page_vaddr = DEFAULT_MEM_SIZE - VPAGE_SIZE * i;
-        uint64_t ppn_3 = create_page_table_lvl (get_satr_val(), GetVPN3(page_vaddr), memory);
-        uint64_t ppn_2 = create_page_table_lvl (ppn_3, GetVPN2(page_vaddr), memory);
-        uint64_t ppn_1 = create_page_table_lvl (ppn_2, GetVPN1(page_vaddr), memory);
-        uint64_t ppn_0 = create_page_table_lvl (ppn_1, GetVPN0(page_vaddr), memory);
-    }
+    uint64_t root_page_addr = memory.get_clean_pages();
+    prepare_page_table(*this, root_page_addr);
 }
 
 //--------------------------------------------------------------------------
@@ -31,10 +25,12 @@ void Hart::map_seg_to_VAS (Segment& segment) {
         }
 
         memory.mem_store (vaddr - start_addr, segment.get_data(), vp_alignment);
+        //memory.mem_store (from_vaddr_to_paddr(*this, vaddr), segment.get_data(), vp_alignment);
     }
 
     //copy the remaining pages
     for (uint64_t vpage_offset = 0; vpage_offset < segment.get_size() - vp_alignment; vpage_offset += VPAGE_SIZE) {
+        //uint64_t paddr = from_vaddr_to_paddr(*this, vaddr + vp_alignment + vpage_offset);
         uint64_t paddr = vaddr + vp_alignment + vpage_offset - start_addr;
 
         //determine the size for the record
@@ -52,7 +48,7 @@ void Hart::load_from_memory (uint64_t vaddr, void* load_ptr, int load_size) {
             "incorrect load size (only 1, 2, 4, 8 b)");
     assert (((vaddr % load_size) == 0) && "incorrect alignment");
     
-    memory.mem_load (vaddr - start_addr, load_ptr, load_size);
+    memory.mem_load (from_vaddr_to_paddr(*this, vaddr), load_ptr, load_size);
 }
 
 void Hart::store_in_memory (uint64_t vaddr, uint64_t val, int store_size) {
@@ -61,7 +57,7 @@ void Hart::store_in_memory (uint64_t vaddr, uint64_t val, int store_size) {
             "incorrect load size (only 1, 2, 4, 8 b)");
     assert (((vaddr % store_size) == 0) && "incorrect alignment");
     
-    memory.mem_store (vaddr - start_addr, &val, store_size);
+    memory.mem_store (from_vaddr_to_paddr(*this, vaddr), &val, store_size);
 }
 
 //--------------------------------------------------------------------------
